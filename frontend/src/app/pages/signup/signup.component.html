@@ -1,0 +1,35 @@
+<div class="text-center">
+    <h2 class="mb-4">Expense Tracker</h2>
+    <p class="lead">Register For Free!</p>
+</div>
+<div class="container-fluid shadow rounded-2 p-4" style="max-width: 20rem;">
+    <form>
+        <label for="email" class="form-label">Email</label>
+        <div class="input-group mb-3">
+            <span class="input-group-text">
+                <i class="bi bi-person-fill"></i>
+            </span>
+            <input autocomplete="off" autofocus class="form-control" id="email" type="text">
+        </div>
+        <label for="password" class="form-label">Password</label>
+        <div class="input-group mb-3">
+            <span class="input-group-text">
+                <i class="bi bi-lock-fill"></i>
+            </span>
+            <input ngModel name="password" class="form-control" id="password" type="password">
+        </div>
+        <label for="confirmation" class="form-label">Confirm Password</label>
+        <div class="input-group mb-3">
+            <span class="input-group-text">
+                <i class="bi bi-check-circle-fill"></i>
+            </span>
+            <input ngModel name="confirmation" class="form-control" id="confirmation" type="password">
+        </div>
+        <div class="text-center mb-2">
+            <button class="btn btn-primary" type="submit">Register</button>
+        </div>
+    </form>
+    <div class="text-center">
+        <p class="fs-6">Already have an account? <a class="link-underline link-underline-opacity-0" href="#">Login</a></p>
+    </div>
+</div>
