@@ -11,7 +11,13 @@ export class AppComponent implements OnInit {
   // @ts-ignore 
   message: string;
 
-  constructor(private apiService: DataService) {}
+  constructor(private apiService: DataService) {
+    this.apiService = apiService;
+  }
+
+  isLoggedIn(): boolean {
+    return this.apiService.isLoggedIn();
+  }
 
   ngOnInit() {
     this.apiService.getData().subscribe((data) => {

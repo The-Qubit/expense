@@ -1,6 +1,5 @@
-{{ message }}
-
-<app-signup></app-signup>
-<app-login></app-login>
-
-<router-outlet></router-outlet>
+<div [class.main-container]="this.isLoggedIn()">
+    <app-navbar *ngIf="this.isLoggedIn()"></app-navbar>
+    <app-sidebar *ngIf="this.isLoggedIn()"></app-sidebar>
+    <router-outlet></router-outlet>
+</div>

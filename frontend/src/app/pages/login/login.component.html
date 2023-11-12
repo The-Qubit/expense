@@ -2,20 +2,23 @@
     <h2 class="mb-3">Expense Tracker</h2>
 </div>
 <div class="container-fluid shadow rounded-2 p-4" style="max-width: 20rem;">
-    <form>
+    <form [formGroup]="loginForm" (submit)="login()">
         <label for="email" class="form-label">Email</label>
         <div class="input-group mb-3">
             <span class="input-group-text">
                 <i class="bi bi-person-fill"></i>
             </span>
-            <input autocomplete="off" autofocus class="form-control" id="email" type="text">
+            <input class="form-control" id="email" formControlName="email" autofocus>
         </div>
         <label for="password" class="form-label">Password</label>
         <div class="input-group mb-2">
             <span class="input-group-text">
                 <i class="bi bi-lock-fill"></i>
             </span>
-            <input class="form-control" id="password" type="password">
+            <input [class.is-invalid]="loginInvalid" class="form-control" id="password" type="password" formControlName="password">
+            <div class="invalid-feedback">
+                Wrong password!
+            </div>
         </div>
         <div class="text-center mb-2">
             <a class="link-underline link-underline-opacity-0" href="#">Forgot password?</a>
@@ -25,7 +28,7 @@
         </div>
     </form>
     <div class="text-center">
-        <p class="fs-6">Don't have an account? <a class="link-underline link-underline-opacity-0" href="#">Signup</a>
+        <p class="fs-6">Don't have an account? <a class="link-underline link-underline-opacity-0" routerLinkActive="active" routerLink="../signup">Signup</a>
         </p>
     </div>
 </div>

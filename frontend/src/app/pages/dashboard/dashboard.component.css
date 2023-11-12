@@ -1,0 +1,99 @@
+.grid-container {
+    /* margin-top: 12rem; */
+    display: grid;
+    gap: 1.5rem;
+    grid-auto-columns: 1fr;
+    grid-template-areas:
+        'one'
+        'two'
+        'three'
+        'four'
+        'five'
+        'six'
+        'seven'
+        'eight';
+    /* padding-block: 2rem; */
+    padding: 1rem;
+}
+
+.grid-item {
+    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.5);
+    border-radius: 10px;
+    padding: 10px;
+}
+
+.recent-expenses {
+    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.5);
+    border-radius: 10px;
+    padding: 10px;
+}
+
+.grid-item:nth-child(1) {
+    grid-area: one;
+}
+
+.grid-item:nth-child(2) {
+    grid-area: two;
+}
+
+.grid-item:nth-child(3) {
+    grid-area: three;
+}
+
+.grid-item:nth-child(4) {
+    grid-area: four;
+}
+
+.grid-item:nth-child(5) {
+    grid-area: five;
+}
+
+.grid-item:nth-child(6) {
+    grid-area: six;
+}
+
+.grid-item:nth-child(7) {
+    grid-area: seven;
+}
+
+.grid-item:nth-child(8) {
+    grid-area: eight;
+}
+
+/* @media screen and (min-width: 33em) {
+  .grid-container {
+      grid-template-areas:
+      "one one"
+      "two three"
+      "five five"
+      "four four";
+  }
+}
+
+@media screen and (min-width: 38em) {
+  .grid-container {
+    grid-template-areas:
+     'one one'
+     'two five'
+     'three five'
+     'four four';
+  }
+}
+
+@media screen and (min-width: 54em) {
+  .grid-container {
+      grid-template-areas:
+      "one one two"
+      "five five five"
+      "three four four";
+  }
+} */
+
+@media screen and (min-width: 75em) {
+    .grid-container {
+        grid-template-areas:
+            "one two three four"
+            "five five five six"
+            "seven eight eight eight";
+    }
+}
