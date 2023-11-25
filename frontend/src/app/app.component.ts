@@ -19,6 +19,8 @@ export class AppComponent implements OnInit {
     return this.apiService.isLoggedIn();
   }
 
+  
+
   ngOnInit() {
     this.apiService.getData().subscribe((data) => {
       console.log(data)

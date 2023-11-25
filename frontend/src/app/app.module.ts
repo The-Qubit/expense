@@ -15,6 +15,8 @@ import { SettingsComponent } from './pages/settings/settings.component';
 import { AnalyticsComponent } from './pages/analytics/analytics.component';
 import { TransactionsComponent } from './pages/transactions/transactions.component';
 import { YearlyOverviewComponent } from './charts/yearly-overview/yearly-overview.component';
+import { SubscriptionComponent } from './pages/subscription/subscription.component';
+import { PerCategoryComponent } from './charts/per-category/per-category.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +30,9 @@ import { YearlyOverviewComponent } from './charts/yearly-overview/yearly-overvie
     SettingsComponent,
     AnalyticsComponent,
     TransactionsComponent,
-    YearlyOverviewComponent
+    YearlyOverviewComponent,
+    SubscriptionComponent,
+    PerCategoryComponent
   ],
   imports: [
     BrowserModule,

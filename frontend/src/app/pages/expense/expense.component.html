@@ -1,1 +1,19 @@
-<p>expense works!</p>
+<div class="container-fluid p-4">
+    <form [formGroup]="expenseForm" (ngSubmit)="addExpense()">
+      <div class="mb-3">
+        <input formControlName="title" class="form-control mx-auto w-auto" placeholder="Title" type="text">
+      </div>
+      <div class="mb-3">
+        <input formControlName="category" class="form-control mx-auto w-auto" placeholder="Category" type="text">
+      </div>
+      <div class="mb-3">
+        <input formControlName="amount" class="form-control mx-auto w-auto" placeholder="Amount" type="number">
+      </div>
+      <div class="mb-3">
+        <input formControlName="date" class="form-control mx-auto w-auto" type="date">
+      </div>
+      <div class="text-center mb-2">
+        <button class="btn btn-primary" type="submit">Save</button>
+      </div>
+    </form>
+  </div>

@@ -8,6 +8,7 @@ import { TransactionsComponent } from './pages/transactions/transactions.compone
 import { SettingsComponent } from './pages/settings/settings.component';
 import { AnalyticsComponent } from './pages/analytics/analytics.component';
 import { AuthGuard } from './auth.guard.guard';
+import { SubscriptionComponent } from './pages/subscription/subscription.component';
 
 const routes: Routes = [
   { path: "", redirectTo: "dashboard", pathMatch: "full"},
@@ -15,6 +16,7 @@ const routes: Routes = [
   { path: "signup", component: SignupComponent },
   { path: "dashboard", component: DashboardComponent, canActivate: [AuthGuard] },
   { path: "expense", component: ExpenseComponent, canActivate: [AuthGuard] },
+  { path: "subscription", component: SubscriptionComponent, canActivate: [AuthGuard] },
   { path: "transactions", component: TransactionsComponent, canActivate: [AuthGuard] },
   { path: "analytics", component: AnalyticsComponent, canActivate: [AuthGuard] },
   { path: "settings", component: SettingsComponent, canActivate: [AuthGuard] },

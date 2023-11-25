@@ -2,6 +2,7 @@ from flask import Flask, jsonify, request
 from flask_cors import CORS
 
 from werkzeug.security import check_password_hash, generate_password_hash
+from src.modell import Expense
 
 from src.session_manager import SessionManager
 from src.database_manager import DatabaseManager
@@ -36,9 +37,11 @@ def signup():
     else:
         return jsonify({"error": "Invalid email or password"}), 401
 
+
 @app.route("/login", methods = ['POST'])
 def login():
     data = request.get_json()
+
     email: str = data.get("email")
     password: str = data.get("password")
 
@@ -46,10 +49,22 @@ def login():
         account = database_manager.get_user(email.lower())
         if account != None or check_password_hash(account["hash"], password):
             token = session_manager.new_session(account["id"])
-            return jsonify({'token': token}), 200
+            return jsonify({'token': token, 'id': account["id"]}), 200
 
     return jsonify({"error": "Invalid email or password"}), 401
 
+@app.route("/expense", methods=["POST"])
+def expense():
+    data = request.get_json()
+
+    session = data.get("session_id", None)
+    print(session)
+
+    data.pop("session_id", None)
+    
+    expense = Expense(**data)
+    database_manager.insert_expense(expense)
+    return jsonify({"message": "Expense added successfully"}), 201
+
 if __name__ == "__main__":
     app.run(debug=True)
-    

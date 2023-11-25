@@ -23,6 +23,7 @@ export class LoginComponent {
       this.apiService.login(this.loginForm.value.email, this.loginForm.value.password).subscribe((data) => {
         this.loginInvalid = false;
         this.apiService.setToken(data.token)
+        this.apiService.setUserId(data.id)
         this.router.navigate(['/dashboard']);
       },
       (_error) => {

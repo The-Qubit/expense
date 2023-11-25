@@ -8,6 +8,7 @@ import { Observable } from 'rxjs';
 export class DataService {
   private apiUrl = 'http://127.0.0.1:5000/';  // Update with your Flask app's URL
   private token = "";
+  private userId = -1;
 
   constructor(private http: HttpClient) {
   }
@@ -35,7 +36,19 @@ export class DataService {
     this.token = token;
   }
 
+  public getToken() {
+    return this.token;
+  }
+
   public isLoggedIn() {
     return this.token !== "";
+  }
+
+  public setUserId(id: number): void {
+    this.userId = id;
+  }
+
+  public getUserId(): number {
+    return this.userId;
   }
 }
