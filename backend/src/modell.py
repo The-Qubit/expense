@@ -18,6 +18,12 @@ class Expense():
     user: int
 
 @dataclass
+class Subscription(Expense):
+    period: int
+    temporal: str
+    next: date
+
+@dataclass
 class User():
     id: int
     email: str

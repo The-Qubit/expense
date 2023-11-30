@@ -47,7 +47,7 @@ def login():
 
     if email != None and password != None:
         account = database_manager.get_user(email.lower())
-        if account != None or check_password_hash(account["hash"], password):
+        if account != None and check_password_hash(account["hash"], password):
             token = session_manager.new_session(account["id"])
             return jsonify({'token': token, 'id': account["id"]}), 200
 
@@ -65,6 +65,10 @@ def expense():
     expense = Expense(**data)
     database_manager.insert_expense(expense)
     return jsonify({"message": "Expense added successfully"}), 201
+
+@app.route("/subscription", methods =["POST"])
+def subscription():
+    data = request.get_json()
 
 if __name__ == "__main__":
     app.run(debug=True)
