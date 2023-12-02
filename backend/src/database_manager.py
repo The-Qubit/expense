@@ -33,7 +33,9 @@ class DatabaseManager():
         return self.database.execute("UPDATE sessions SET expires = ? WHERE token = ?", expires, token)
 
     def insert_expense(self, expense: Expense):
-        print(expense)
         return self.database.execute(
             "INSERT INTO expenses (title, category, amount, payment_date, user_id) VALUES (?, ?, ?, ?, ?)", 
             expense.title, expense.category, expense.amount, expense.date, expense.user)
+    
+    def get_expenses(self, user_id):
+        return self.database.execute("SELECT title, category, amount, payment_date, user_id FROM expenses WHERE user_id = ?", user_id)

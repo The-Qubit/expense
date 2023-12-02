@@ -1,7 +1,9 @@
+import threading
 from flask import Flask, jsonify, request
 from flask_cors import CORS
 
 from werkzeug.security import check_password_hash, generate_password_hash
+from src.subscription_processor import debit_subscriptions
 from src.modell import Expense
 
 from src.session_manager import SessionManager
@@ -42,6 +44,8 @@ def signup():
 def login():
     data = request.get_json()
 
+    print(database_manager.get_expenses(26))
+
     email: str = data.get("email")
     password: str = data.get("password")
 
@@ -66,9 +70,19 @@ def expense():
     database_manager.insert_expense(expense)
     return jsonify({"message": "Expense added successfully"}), 201
 
+
 @app.route("/subscription", methods =["POST"])
 def subscription():
     data = request.get_json()
 
+@app.route("/expenses", methods=["GET"])
+def expenses():
+    user = request.args.get("user")
+
+    return jsonify(database_manager.get_expenses(user))
+
+
 if __name__ == "__main__":
+    x = threading.Thread(target=debit_subscriptions, args=(1,))
+    x.start()
     app.run(debug=True)
