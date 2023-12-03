@@ -1,7 +1,6 @@
 <div class="container-fluid" style="max-width: 40rem;">
   <h3>Subscription</h3>
-  <!-- <form [formGroup]="expenseForm" (ngSubmit)="addExpense()"> -->
-  <form class="row g-3 mx-auto" style="max-width: fit-content;">
+  <form [formGroup]="subscriptionForm" (ngSubmit)="addSubscription()" class="row g-3 mx-auto" style="max-width: fit-content;">
     <div class="col-12">
       <label for="title" class="form-label">Title</label>
       <input formControlName="title" id="title" class="form-control" type="text">
@@ -16,15 +15,15 @@
     </div>
     <div class="col-md-4 mt-2">
       <label for="start" class="form-label">Start</label>
-      <input id="start" formControlName="date" class="form-control" type="date" [min]="minDate">
+      <input id="start" formControlName="date" class="form-control" type="date">
     </div>
     <div class="col-md-4 mt-2">
       <label for="period" class="form-label">Period</label>
-      <input id="period" class="form-control" type="number">
+      <input formControlName="period" id="period" class="form-control" type="number">
     </div>
     <div class="col-md-4 mt-2">
-      <label for="temproal" class="form-label">Temporal</label>
-      <select id="temproal" class="form-select">
+      <label for="temporal" class="form-label">Temporal</label>
+      <select formControlName="temporal" id="temporal" class="form-select">
         <option value="1">Days</option>
         <option value="2">Months</option>
         <option value="3">Years</option>

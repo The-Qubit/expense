@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Expense } from 'src/models/expense.model';
 import { DataService } from './data.service';
+import { Subscription } from 'src/models/subscription.model';
 
 @Injectable({
   providedIn: 'root'
@@ -15,5 +16,9 @@ export class ExpenseService {
 
   addExpense(expense: Expense): Observable<any> {
     return this.http.post<any>(`${this.apiUrl}/expense`, {...expense, session_id: this.dataService.getToken()});
+  }
+
+  addSubscription(subscription: Subscription): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/subscription`, {...subscription, session_id: this.dataService.getToken()});
   }
 }

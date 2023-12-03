@@ -1,10 +1,11 @@
 import threading
 from flask import Flask, jsonify, request
 from flask_cors import CORS
+from datetime import datetime
 
 from werkzeug.security import check_password_hash, generate_password_hash
 from src.subscription_processor import debit_subscriptions
-from src.modell import Expense
+from src.modell import Expense, Subscription
 
 from src.session_manager import SessionManager
 from src.database_manager import DatabaseManager
@@ -19,6 +20,7 @@ session_manager = SessionManager()
 def get():
     return {"message": "Hello, welcome to the API!"}
 
+
 @app.route("/isEmailUsed")
 def isEmailUsed():
     email = request.args.get("email")
@@ -27,6 +29,7 @@ def isEmailUsed():
         if entry['email'] == email:
             return jsonify({'is_used': True}), 200
     return jsonify({'is_used': False}), 200
+
 
 @app.route("/signup", methods = ['POST'])
 def signup():
@@ -43,8 +46,6 @@ def signup():
 @app.route("/login", methods = ['POST'])
 def login():
     data = request.get_json()
-
-    print(database_manager.get_expenses(26))
 
     email: str = data.get("email")
     password: str = data.get("password")
@@ -74,6 +75,19 @@ def expense():
 @app.route("/subscription", methods =["POST"])
 def subscription():
     data = request.get_json()
+    
+    session = data.get("session_id", None)
+    print(session)
+
+    data.pop("session_id", None)
+
+    subscription = Subscription(**data, next=datetime.now())
+    
+    print(subscription)
+
+    database_manager.insert_subscription(subscription)
+    return jsonify({"message": "Subscription added successfully"}), 200
+
 
 @app.route("/expenses", methods=["GET"])
 def expenses():
