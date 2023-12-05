@@ -21,4 +21,9 @@ export class ExpenseService {
   addSubscription(subscription: Subscription): Observable<any> {
     return this.http.post<any>(`${this.apiUrl}/subscription`, {...subscription, session_id: this.dataService.getToken()});
   }
+
+  getExpenses(user: number): Observable<any> {
+    const data = { user: user,  session_id: this.dataService.getToken() };
+    return this.http.get<any>(`${this.apiUrl}/expenses`, {params: data});
+  }
 }

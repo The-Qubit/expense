@@ -81,9 +81,11 @@ def subscription():
 
     data.pop("session_id", None)
 
-    subscription = Subscription(**data, next=datetime.now())
-    
-    print(subscription)
+    subscription = Subscription(**data, next=data.get("date"))
+
+    if subscription.next == datetime.now().strftime("%Y-%m-%d"):
+        print(True)
+        # TODO: Add Expense and set next subscription date
 
     database_manager.insert_subscription(subscription)
     return jsonify({"message": "Subscription added successfully"}), 200
@@ -93,10 +95,13 @@ def subscription():
 def expenses():
     user = request.args.get("user")
 
-    return jsonify(database_manager.get_expenses(user))
+    expenses = database_manager.get_expenses(user)
+    print(expenses)
+
+    return jsonify(expenses)
 
 
 if __name__ == "__main__":
-    x = threading.Thread(target=debit_subscriptions, args=(1,))
+    x = threading.Thread(target=debit_subscriptions, daemon=True)
     x.start()
     app.run(debug=True)

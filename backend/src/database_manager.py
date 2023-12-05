@@ -34,16 +34,22 @@ class DatabaseManager():
 
     def insert_expense(self, expense: Expense):
         return self.database.execute(
-            "INSERT INTO expenses (title, category, amount, payment_date, user_id) VALUES (?, ?, ?, ?, ?)", 
+            "INSERT INTO expenses (title, category, amount, date, user_id) VALUES (?, ?, ?, ?, ?)", 
             expense.title, expense.category, expense.amount, expense.date, expense.user)
     
     def get_expenses(self, user_id):
-        return self.database.execute("SELECT title, category, amount, payment_date, user_id FROM expenses WHERE user_id = ?", user_id)
+        return self.database.execute("SELECT title, category, amount, date, user_id FROM expenses WHERE user_id = ?", user_id)
     
     def insert_subscription(self, subscription: Subscription):
         return self.database.execute("INSERT INTO subscriptions (title, category, amount, start, user_id, period, temporal, next ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)", 
                                      subscription.title, subscription.category, subscription.amount, subscription.date,
                                      subscription.user, subscription.period, subscription.temporal, subscription.next)
 
-    def get_subscriptions(self, user_id):
+    def update_next_subscription(self, id, next):
+        return self.database.execute("UPDATE subscriptions SET next = ? WHERE id = ?", next, id)
+
+    def get_user_subscriptions(self, user_id):
         return self.database.execute("SELECT * FROM subscriptions WHERE user_id = ?", user_id)
+    
+    def get_all_subscriptions(self):
+        return self.database.execute("SELECT * FROM subscriptions")

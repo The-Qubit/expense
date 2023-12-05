@@ -20,7 +20,7 @@ export class SubscriptionComponent implements OnInit{
       amount: [0, [Validators.required, Validators.min(0)]],
       date: [new Date(), Validators.required],
       user: this.dataService.getUserId(),
-      temporal: ['', Validators.required],
+      temporal: ['m', Validators.required],
       period: [1, [Validators.required, Validators.min(1)]]
     });
   }
