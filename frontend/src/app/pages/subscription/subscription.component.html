@@ -1,0 +1,36 @@
+<div class="container-fluid" style="max-width: 40rem;">
+  <h3>Subscription</h3>
+  <form [formGroup]="subscriptionForm" (ngSubmit)="addSubscription()" class="row g-3 mx-auto" style="max-width: fit-content;">
+    <div class="col-12">
+      <label for="title" class="form-label">Title</label>
+      <input formControlName="title" id="title" class="form-control" type="text">
+    </div>
+    <div class="col-12">
+      <label for="category" class="form-label">Category</label>
+      <input formControlName="category" class="form-control" id="category" type="text">
+    </div>
+    <div class="col-12">
+      <label for="amount" class="form-label">Amount</label>
+      <input formControlName="amount" class="form-control" id="amount" type="number">
+    </div>
+    <div class="col-md-4 mt-2">
+      <label for="start" class="form-label">Start</label>
+      <input id="start" formControlName="date" class="form-control" type="date">
+    </div>
+    <div class="col-md-4 mt-2">
+      <label for="period" class="form-label">Period</label>
+      <input formControlName="period" id="period" class="form-control" type="number">
+    </div>
+    <div class="col-md-4 mt-2">
+      <label for="temporal" class="form-label">Temporal</label>
+      <select formControlName="temporal" id="temporal" class="form-select">
+        <option value="d">Days</option>
+        <option value="m" selected>Months</option>
+        <option value="y">Years</option>
+      </select>
+    </div>
+    <div class="text-center mb-2">
+      <button class="btn btn-primary" type="submit">Save</button>
+    </div>
+  </form>
+</div>
