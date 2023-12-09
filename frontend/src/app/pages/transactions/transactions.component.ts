@@ -11,7 +11,7 @@ import { Expense } from 'src/models/expense.model';
 })
 export class TransactionsComponent implements OnInit {
   expenses: Expense[] = [];
-  filteredExpenses: any[] = [];
+  filteredExpenses: Expense[] = [];
   searchQuery: string = "";
   displayStyle = "none";
   expenseForm!: FormGroup;
@@ -53,8 +53,6 @@ export class TransactionsComponent implements OnInit {
       expense.amount.toString().toLowerCase().includes(this.searchQuery.toLowerCase()) ||
       expense.date.toString().toLowerCase().includes(this.searchQuery.toLowerCase())
     );
-
-    console.log('Filtered Expenses:', this.filteredExpenses);
   }
 
   addExpense() {

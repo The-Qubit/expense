@@ -41,15 +41,15 @@ class DatabaseManager():
         return self.database.execute("SELECT title, category, amount, date, type, user_id FROM transactions WHERE user_id = ?", user_id)
     
     def insert_subscription(self, subscription: Subscription):
-        return self.database.execute("INSERT INTO subscriptions (title, category, amount, start, user_id, period, temporal, next ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)", 
-                                     subscription.title, subscription.category, subscription.amount, subscription.date,
+        return self.database.execute("INSERT INTO subscriptions (title, category, amount, type, start, user_id, period, temporal, next ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)", 
+                                     subscription.title, subscription.category, subscription.amount, subscription.type, subscription.date,
                                      subscription.user, subscription.period, subscription.temporal, subscription.next)
 
     def update_next_subscription(self, id, next):
         return self.database.execute("UPDATE subscriptions SET next = ? WHERE id = ?", next, id)
 
     def get_user_subscriptions(self, user_id):
-        return self.database.execute("SELECT * FROM subscriptions WHERE user_id = ?", user_id)
+        return self.database.execute("SELECT title, category, amount, type, start, user_id, period, temporal, next FROM subscriptions WHERE user_id = ?", user_id)
     
     def get_all_subscriptions(self):
         return self.database.execute("SELECT * FROM subscriptions")

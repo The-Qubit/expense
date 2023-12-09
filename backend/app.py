@@ -96,10 +96,16 @@ def expenses():
     user = request.args.get("user")
 
     expenses = database_manager.get_expenses(user)
-    print(expenses)
 
     return jsonify(expenses)
 
+@app.route("/subscriptions", methods=["GET"])
+def subscriptions():
+    user = request.args.get("user")
+
+    subscriptions = database_manager.get_user_subscriptions(user)
+
+    return jsonify(subscriptions)
 
 if __name__ == "__main__":
     x = threading.Thread(target=debit_subscriptions, daemon=True)

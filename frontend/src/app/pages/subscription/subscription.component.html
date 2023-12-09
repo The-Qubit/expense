@@ -1,109 +1,104 @@
 <div class="container">
-  <h2>Subscriptions</h2>
-  <div class="row">
-      <div class="col-md-10 mt-2">
-          <!-- <input type="text" class="form-control" placeholder="Search" [(ngModel)]="searchQuery" (input)="updateFilter()"> -->
-      </div>
-      <div class="col-md-2">
-          <button (click)="openModal()" class="btn btn-primary mt-2">Add Subscription</button>
-      </div>
-  </div>
+	<h2>Subscriptions</h2>
+	<div class="row">
+		<div class="col-md-10 mt-2">
+			<!-- <input type="text" class="form-control" placeholder="Search" [(ngModel)]="searchQuery" (input)="updateFilter()"> -->
+		</div>
+		<div class="col-md-2">
+			<button (click)="openModal()" class="btn btn-primary mt-2">Add Subscription</button>
+		</div>
+	</div>
 
-  <div class="pt-3">
-      <table class="table">
-          <thead class="thead-dark">
-              <tr>
-                  <th scope="col">Title</th>
-                  <th scope="col">Category</th>
-                  <th scope="col">Date</th>
-                  <th scope="col">Amount</th>
-                  <th scope="col">Actions</th>
-              </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>Mark</td>
-              <td>Otto</td>
-              <td>mdo</td>
-              <td>abc</td>
-              <td><button class="btn bg-transparent" (click)="edit()"><i class="bi bi-pencil"></i></button></td>
-            </tr>
-          </tbody>
-          
-          <tbody class="table-group-divider">
-              <!-- <tr *ngFor="let expense of filteredExpenses">
-                  <td>{{ expense.title }}</td>
-                  <td>{{ expense.category }}</td>
-                  <td>{{ expense.date }}</td>
-                  <td [ngStyle]="getColor(expense.type)"> {{expense.type}}{{ expense.amount }} €</td>
-              </tr> -->
-          </tbody>
-      </table>
-  </div>
+	<div class="pt-3">
+		<table class="table">
+			<thead class="thead-dark">
+				<tr>
+					<th scope="col">Type</th>
+					<th scope="col">Title</th>
+					<th scope="col">Category</th>
+					<th scope="col">Amount</th>
+					<th scope="col">Period</th>
+					<th scope="col">Next</th>
+					<th scope="col">Actions</th>
+				</tr>
+			</thead>
+			<tbody class="table-group-divider">
+				<tr *ngFor="let subscription of filteredSubscriptions">
+					<td>{{ getType(subscription.type) }}</td>
+					<td>{{ subscription.title }}</td>
+					<td>{{ subscription.category }}</td>
+					<td>{{ subscription.amount }} €</td>
+					<td>{{ subscription.period }} {{ getTemporal(subscription.temporal)}}</td>
+					<td>{{ subscription.next}}</td>
+					<td><button class="btn bg-transparent" (click)="edit()"><i class="bi bi-pencil"></i></button></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
 </div>
 
 <div class="modal" tabindex="-1" role="dialog" [ngStyle]="{'display':displayStyle}">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-      <div class="modal-content shadow rounded-2">
-          <div class="modal-body">
-              <div class="row">
-                  <div class="col-md-11">
-                      <h4 class="modal-title">Add Subscription</h4>
-                  </div>
-                  <div class="col-md-1">
-                      <button class="btn-close" (click)="closeModal()"></button>
-                  </div>
-              </div>
-              <div class="container-fluid" style="max-width: 40rem;">
-                <h3></h3>
-                <form [formGroup]="subscriptionForm" (ngSubmit)="addSubscription()" class="row g-3 mx-auto" style="max-width: fit-content;">
-                  
-                  <div class="row mb-3" style="margin: auto">
-                    <div class="form-check col-md-3">
-                        <label class="form-check-label" for="expenseRadio">Expense</label>
-                        <input class="form-check-input" type="radio" name="type" formControlName="type" value="-" id="expenseRadio"
-                            checked>
-                    </div>
-                    <div class="form-check col-md-3">
-                        <label class="form-check-label" for="incomeRadio">Income</label>
-                        <input class="form-check-input" type="radio" name="type" formControlName="type" value="+" id="incomeRadio">
-                    </div>
-                </div>
-                  
-                  <div class="col-12">
-                    <label for="title" class="form-label">Title</label>
-                    <input formControlName="title" id="title" class="form-control" type="text">
-                  </div>
-                  <div class="col-12">
-                    <label for="category" class="form-label">Category</label>
-                    <input formControlName="category" class="form-control" id="category" type="text">
-                  </div>
-                  <div class="col-12">
-                    <label for="amount" class="form-label">Amount</label>
-                    <input formControlName="amount" class="form-control" id="amount" type="number">
-                  </div>
-                  <div class="col-md-5 mt-2">
-                    <label for="start" class="form-label">Start</label>
-                    <input id="start" formControlName="date" class="form-control" type="date">
-                  </div>
-                  <div class="col-md-3 mt-2">
-                    <label for="period" class="form-label">Period</label>
-                    <input formControlName="period" id="period" class="form-control" type="number">
-                  </div>
-                  <div class="col-md-4 mt-2">
-                    <label for="temporal" class="form-label">Temporal</label>
-                    <select formControlName="temporal" id="temporal" class="form-select">
-                      <option value="d">Days</option>
-                      <option value="m" selected>Months</option>
-                      <option value="y">Years</option>
-                    </select>
-                  </div>
-                  <div class="text-center mb-2">
-                    <button class="btn btn-primary" type="submit">Save</button>
-                  </div>
-                </form>
-              </div>
-          </div>
-      </div>
-  </div>
+	<div class="modal-dialog modal-dialog-centered" role="document">
+		<div class="modal-content shadow rounded-2">
+			<div class="modal-body">
+				<div class="row">
+					<div class="col-md-11">
+						<h4 class="modal-title">Add Subscription</h4>
+					</div>
+					<div class="col-md-1">
+						<button class="btn-close" (click)="closeModal()"></button>
+					</div>
+				</div>
+				<div class="container-fluid p-4 mx-auto">
+					<form [formGroup]="subscriptionForm" (ngSubmit)="addSubscription()" class="row">
+
+						<div class="row mb-3" style="margin: auto">
+							<div class="form-check col-md-3">
+								<label class="form-check-label" for="expenseRadio">Expense</label>
+								<input class="form-check-input" type="radio" name="type" formControlName="type"
+									value="-" id="expenseRadio" checked>
+							</div>
+							<div class="form-check col-md-3">
+								<label class="form-check-label" for="incomeRadio">Income</label>
+								<input class="form-check-input" type="radio" name="type" formControlName="type"
+									value="+" id="incomeRadio">
+							</div>
+						</div>
+
+						<div class="col-12 mt-2">
+							<label for="title" class="form-label">Title</label>
+							<input formControlName="title" id="title" class="form-control" type="text">
+						</div>
+						<div class="col-12 mt-2">
+							<label for="category" class="form-label">Category</label>
+							<input formControlName="category" class="form-control" id="category" type="text">
+						</div>
+						<div class="col-12 mt-2">
+							<label for="amount" class="form-label">Amount</label>
+							<input formControlName="amount" class="form-control" id="amount" type="number">
+						</div>
+						<div class="col-md-5 mt-2">
+							<label for="start" class="form-label">Start</label>
+							<input id="start" formControlName="date" class="form-control" type="date">
+						</div>
+						<div class="col-md-3 mt-2">
+							<label for="period" class="form-label">Period</label>
+							<input formControlName="period" id="period" class="form-control" type="number">
+						</div>
+						<div class="col-md-4 mt-2">
+							<label for="temporal" class="form-label">Temporal</label>
+							<select formControlName="temporal" id="temporal" class="form-select">
+								<option value="d">Days</option>
+								<option value="m" selected>Months</option>
+								<option value="y">Years</option>
+							</select>
+						</div>
+						<div class="text-center mb-2 mt-3">
+							<button class="btn btn-primary" type="submit">Save</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>
