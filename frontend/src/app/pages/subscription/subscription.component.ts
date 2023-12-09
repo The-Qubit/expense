@@ -46,4 +46,8 @@ export class SubscriptionComponent implements OnInit{
   closeModal(): void {
     this.displayStyle = "none";
   }
+
+  edit() {
+    console.log("edit");
+    }
 }

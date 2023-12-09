@@ -17,16 +17,27 @@
                   <th scope="col">Category</th>
                   <th scope="col">Date</th>
                   <th scope="col">Amount</th>
+                  <th scope="col">Actions</th>
               </tr>
           </thead>
-          <!-- <tbody class="table-group-divider">
-              <tr *ngFor="let expense of filteredExpenses">
+          <tbody>
+            <tr>
+              <td>Mark</td>
+              <td>Otto</td>
+              <td>mdo</td>
+              <td>abc</td>
+              <td><button class="btn bg-transparent" (click)="edit()"><i class="bi bi-pencil"></i></button></td>
+            </tr>
+          </tbody>
+          
+          <tbody class="table-group-divider">
+              <!-- <tr *ngFor="let expense of filteredExpenses">
                   <td>{{ expense.title }}</td>
                   <td>{{ expense.category }}</td>
                   <td>{{ expense.date }}</td>
                   <td [ngStyle]="getColor(expense.type)"> {{expense.type}}{{ expense.amount }} €</td>
-              </tr>
-          </tbody> -->
+              </tr> -->
+          </tbody>
       </table>
   </div>
 </div>
