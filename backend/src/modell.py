@@ -10,15 +10,16 @@ class Session():
     user_id: int
 
 @dataclass
-class Expense():
+class Transaction():
     title: str
     category: str
     amount: float
     date: date
+    type: str
     user: int
 
 @dataclass
-class Subscription(Expense):
+class Subscription(Transaction):
     period: int
     temporal: str
     next: date

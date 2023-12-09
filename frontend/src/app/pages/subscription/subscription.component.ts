@@ -10,6 +10,7 @@ import { ExpenseService } from 'src/app/expense.service';
 })
 export class SubscriptionComponent implements OnInit{
   subscriptionForm!: FormGroup;
+  displayStyle = "none";
 
   constructor(private fb: FormBuilder, private expenseService: ExpenseService, private dataService: DataService) {}
 
@@ -37,5 +38,12 @@ export class SubscriptionComponent implements OnInit{
         }
       );
     }
+  }
+  openModal(): void {
+    this.displayStyle = "block";
+  }
+
+  closeModal(): void {
+    this.displayStyle = "none";
   }
 }

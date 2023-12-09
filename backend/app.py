@@ -5,7 +5,7 @@ from datetime import datetime
 
 from werkzeug.security import check_password_hash, generate_password_hash
 from src.subscription_processor import debit_subscriptions
-from src.modell import Expense, Subscription
+from src.modell import Transaction, Subscription
 
 from src.session_manager import SessionManager
 from src.database_manager import DatabaseManager
@@ -67,7 +67,7 @@ def expense():
 
     data.pop("session_id", None)
     
-    expense = Expense(**data)
+    expense = Transaction(**data)
     database_manager.insert_expense(expense)
     return jsonify({"message": "Expense added successfully"}), 201
 

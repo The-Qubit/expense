@@ -3,7 +3,7 @@ import time
 
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
-from src.modell import Expense
+from src.modell import Transaction
 
 from src.database_manager import DatabaseManager
 
@@ -15,7 +15,7 @@ def debit_subscriptions():
 
         for subscription in subscriptions:
             if subscription["next"] == datetime.now().strftime("%Y-%m-%d"):
-                expense = Expense(subscription["title"], subscription["category"], subscription["amount"],  subscription["next"], subscription["user_id"])
+                expense = Transaction(subscription["title"], subscription["category"], subscription["amount"],  subscription["next"], subscription["user_id"])
                 database.insert_expense(expense)
 
                 database.update_next_subscription(subscription["id"], calculate_next(subscription["next"], subscription["period"], subscription["temporal"]))

@@ -24,6 +24,7 @@ export class TransactionsComponent implements OnInit {
       category: ['', Validators.required],
       amount: [0, [Validators.required, Validators.min(0)]],
       date: [new Date(), Validators.required],
+      type: ['-', Validators.required],
       user: this.dataService.getUserId()
     });
     this.loadExpenses();
@@ -79,5 +80,14 @@ export class TransactionsComponent implements OnInit {
 
   closeModal(): void {
     this.displayStyle = "none";
+  }
+
+  getColor(type: string): object {
+    // Logic to determine styles based on data
+    if (type == "+") {
+      return { color: 'green'};
+    } else {
+      return { color: 'red'};
+    }
   }
 }

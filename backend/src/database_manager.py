@@ -1,7 +1,7 @@
 from cs50 import SQL
 from datetime import datetime
 
-from src.modell import Expense, Session, Subscription, User
+from src.modell import Transaction, Session, Subscription, User
 
 class DatabaseManager():
     database = SQL("sqlite:///database.db")
@@ -32,13 +32,13 @@ class DatabaseManager():
     def update_session(self, token, expires):
         return self.database.execute("UPDATE sessions SET expires = ? WHERE token = ?", expires, token)
 
-    def insert_expense(self, expense: Expense):
+    def insert_expense(self, expense: Transaction):
         return self.database.execute(
-            "INSERT INTO expenses (title, category, amount, date, user_id) VALUES (?, ?, ?, ?, ?)", 
-            expense.title, expense.category, expense.amount, expense.date, expense.user)
+            "INSERT INTO transactions (title, category, amount, date, type, user_id) VALUES (?, ?, ?, ?, ?, ?)", 
+            expense.title, expense.category, expense.amount, expense.date, expense.type,expense.user)
     
     def get_expenses(self, user_id):
-        return self.database.execute("SELECT title, category, amount, date, user_id FROM expenses WHERE user_id = ?", user_id)
+        return self.database.execute("SELECT title, category, amount, date, type, user_id FROM transactions WHERE user_id = ?", user_id)
     
     def insert_subscription(self, subscription: Subscription):
         return self.database.execute("INSERT INTO subscriptions (title, category, amount, start, user_id, period, temporal, next ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)", 

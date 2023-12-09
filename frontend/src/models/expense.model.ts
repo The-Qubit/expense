@@ -4,4 +4,5 @@ export interface Expense {
     amount: number;
     date: Date;
     user: number;
+    type: string // + -> income; - -> expense
   }
