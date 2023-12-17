@@ -10,11 +10,14 @@ import { Subscription } from 'src/models/subscription.model';
   styleUrls: ['./subscription.component.css']
 })
 export class SubscriptionComponent implements OnInit {
-  subscriptions: Subscription[] = [];
-  filteredSubscriptions: Subscription[] = [];
+  subscriptions: any[] = [];
+  filteredSubscriptions: any[] = [];
   searchQuery: string = "";
   subscriptionForm!: FormGroup;
   displayStyle = "none";
+  newSubscription = true;
+  context = -1;
+
 
   constructor(private fb: FormBuilder, private expenseService: ExpenseService, private dataService: DataService) { }
 
@@ -39,16 +42,21 @@ export class SubscriptionComponent implements OnInit {
       this.filteredSubscriptions = this.subscriptions;
     },
       (error) => {
-        console.error('Error loading expenses', error);
+        console.error('Error loading subscriptions', error);
       })
   }
 
   updateFilter(): void {
+    console.log("HEY")
+    const query = this.searchQuery.toLowerCase()
     this.filteredSubscriptions = this.subscriptions.filter(subscription =>
-      subscription.title.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
-      subscription.category.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
-      subscription.amount.toString().toLowerCase().includes(this.searchQuery.toLowerCase()) ||
-      subscription.date.toString().toLowerCase().includes(this.searchQuery.toLowerCase())
+      subscription.title.toLowerCase().includes(query) ||
+      subscription.category.toLowerCase().includes(query) ||
+      subscription.amount.toString().toLowerCase().includes(query) ||
+      this.getType(subscription.type).toLowerCase().includes(query) ||
+      subscription.next.toLowerCase().includes(query) ||
+      this.getTemporal(subscription.temporal).toLowerCase().includes(query) ||
+      subscription.period.toString().toLowerCase().includes(query)
     );
   }
 
@@ -56,8 +64,10 @@ export class SubscriptionComponent implements OnInit {
     if (this.subscriptionForm.valid) {
       const newSubscription = this.subscriptionForm.value;
       this.expenseService.addSubscription(newSubscription).subscribe(
-        (response) => {
-          console.log('Subscription added successfully', response);
+        (_) => {
+          this.searchQuery = "";
+          this.loadSubscriptions();
+          this.closeModal();
         },
         (error) => {
           console.error('Error adding subscription', error);
@@ -73,8 +83,20 @@ export class SubscriptionComponent implements OnInit {
     this.displayStyle = "none";
   }
 
-  edit() {
-    console.log("edit");
+  edit(id: number) {
+    this.newSubscription = false;
+    const subscription = this.subscriptions.filter(subscription => subscription.id === id)[0]
+    this.subscriptionForm.get("title")?.setValue(subscription.title)
+    this.subscriptionForm.get("category")?.setValue(subscription.category)
+    this.subscriptionForm.get("amount")?.setValue(subscription.amount)
+    this.subscriptionForm.get("type")?.setValue(subscription.type)
+    this.subscriptionForm.get("date")?.setValue(subscription.next)
+    this.subscriptionForm.get("temporal")?.setValue(subscription.temporal)
+    this.subscriptionForm.get("period")?.setValue(subscription.period)
+
+    this.context = id;
+
+    this.openModal()
   }
 
   getType(abbreviation: string) {
@@ -92,5 +114,18 @@ export class SubscriptionComponent implements OnInit {
     } else {
       return "Day";
     }
+  }
+
+  deleteSubscription() {
+    this.expenseService.deleteSubscription(this.context).subscribe(
+      (_) => {
+        this.searchQuery = "";
+        this.loadSubscriptions();
+        this.closeModal();
+      },
+      (error) => {
+        console.error('Error adding subscription', error);
+      }
+    );
   }
 }

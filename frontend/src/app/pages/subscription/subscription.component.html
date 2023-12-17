@@ -2,7 +2,8 @@
 	<h2>Subscriptions</h2>
 	<div class="row">
 		<div class="col-md-10 mt-2">
-			<!-- <input type="text" class="form-control" placeholder="Search" [(ngModel)]="searchQuery" (input)="updateFilter()"> -->
+			<input type="text" class="form-control" placeholder="Search" [(ngModel)]="searchQuery"
+				(input)="updateFilter()">
 		</div>
 		<div class="col-md-2">
 			<button (click)="openModal()" class="btn btn-primary mt-2">Add Subscription</button>
@@ -19,7 +20,7 @@
 					<th scope="col">Amount</th>
 					<th scope="col">Period</th>
 					<th scope="col">Next</th>
-					<th scope="col">Actions</th>
+					<!-- <th scope="col">Actions</th> -->
 				</tr>
 			</thead>
 			<tbody class="table-group-divider">
@@ -30,7 +31,8 @@
 					<td>{{ subscription.amount }} €</td>
 					<td>{{ subscription.period }} {{ getTemporal(subscription.temporal)}}</td>
 					<td>{{ subscription.next}}</td>
-					<td><button class="btn bg-transparent" (click)="edit()"><i class="bi bi-pencil"></i></button></td>
+					<td><button class="btn bg-transparent" (click)="edit(subscription.id)"><i
+								class="bi bi-pencil"></i></button></td>
 				</tr>
 			</tbody>
 		</table>
@@ -43,7 +45,7 @@
 			<div class="modal-body">
 				<div class="row">
 					<div class="col-md-11">
-						<h4 class="modal-title">Add Subscription</h4>
+						<h4 class="modal-title">Subscription</h4>
 					</div>
 					<div class="col-md-1">
 						<button class="btn-close" (click)="closeModal()"></button>
@@ -56,7 +58,7 @@
 							<div class="form-check col-md-3">
 								<label class="form-check-label" for="expenseRadio">Expense</label>
 								<input class="form-check-input" type="radio" name="type" formControlName="type"
-									value="-" id="expenseRadio" checked>
+									value="-" id="expenseRadio">
 							</div>
 							<div class="form-check col-md-3">
 								<label class="form-check-label" for="incomeRadio">Income</label>
@@ -93,9 +95,15 @@
 								<option value="y">Years</option>
 							</select>
 						</div>
-						<div class="text-center mb-2 mt-3">
-							<button class="btn btn-primary" type="submit">Save</button>
+						<div *ngIf="newSubscription; else elseBlock" class="text-center mb-2 mt-3">
+							<button class="btn btn-primary" type="button">Save</button>
 						</div>
+						<ng-template #elseBlock>
+							<div class="text-center mb-2 mt-3">
+								<!-- <button class="btn btn-primary mx-1" type="button">Update</button> -->
+								<button class="btn btn-danger mx-1" type="button" (click)="deleteSubscription()">Delete</button>
+							</div>
+						</ng-template>
 					</form>
 				</div>
 			</div>

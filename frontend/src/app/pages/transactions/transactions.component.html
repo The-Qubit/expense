@@ -21,11 +21,11 @@
                 </tr>
             </thead>
             <tbody class="table-group-divider">
-                <tr *ngFor="let expense of filteredExpenses">
-                    <td>{{ expense.title }}</td>
-                    <td>{{ expense.category }}</td>
-                    <td>{{ expense.date }}</td>
-                    <td [ngStyle]="getColor(expense.type)"> {{expense.type}}{{ expense.amount }} €</td>
+                <tr *ngFor="let transaction of filteredTransactions">
+                    <td>{{ transaction.title }}</td>
+                    <td>{{ transaction.category }}</td>
+                    <td>{{ transaction.date }}</td>
+                    <td [ngStyle]="getColor(transaction.type)"> {{transaction.type}}{{ transaction.amount }} €</td>
                 </tr>
             </tbody>
         </table>

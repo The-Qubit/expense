@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DataService } from 'src/app/data.service';
 import { ExpenseService } from 'src/app/expense.service';
-import { Expense } from 'src/models/expense.model';
+import { Transaction } from 'src/models/expense.model';
 
 @Component({
   selector: 'app-transactions',
@@ -10,8 +10,8 @@ import { Expense } from 'src/models/expense.model';
   styleUrls: ['./transactions.component.css']
 })
 export class TransactionsComponent implements OnInit {
-  expenses: Expense[] = [];
-  filteredExpenses: Expense[] = [];
+  transactions: Transaction[] = [];
+  filteredTransactions: Transaction[] = [];
   searchQuery: string = "";
   displayStyle = "none";
   expenseForm!: FormGroup;
@@ -27,17 +27,17 @@ export class TransactionsComponent implements OnInit {
       type: ['-', Validators.required],
       user: this.dataService.getUserId()
     });
-    this.loadExpenses();
+    this.loadTransactions();
   }
 
 
-  loadExpenses() {
-    this.expenseService.getExpenses(this.dataService.getUserId())
+  loadTransactions() {
+    this.expenseService.getTransactions(this.dataService.getUserId())
       .subscribe(
         (data) => {
           // @ts-ignore
-          this.expenses = data.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
-          this.filteredExpenses = this.expenses;
+          this.transactions = data.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+          this.filteredTransactions = this.transactions;
         },
         (error) => {
           console.error('Error loading expenses', error);
@@ -46,8 +46,7 @@ export class TransactionsComponent implements OnInit {
   }
 
   updateFilter(): void {
-    console.log('Search Query:', this.searchQuery);
-    this.filteredExpenses = this.expenses.filter(expense =>
+    this.filteredTransactions = this.transactions.filter(expense =>
       expense.title.toLowerCase().includes(this.searchQuery.toLowerCase()) || 
       expense.category.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
       expense.amount.toString().toLowerCase().includes(this.searchQuery.toLowerCase()) ||
@@ -59,10 +58,9 @@ export class TransactionsComponent implements OnInit {
     if (this.expenseForm.valid) {
       const newExpense = this.expenseForm.value;
       this.expenseService.addExpense(newExpense).subscribe(
-        (response) => {
-          console.log('Expense added successfully', response);
+        (_) => {
           this.searchQuery = "";
-          this.loadExpenses();
+          this.loadTransactions();
           this.closeModal();
         },
         (error) => {

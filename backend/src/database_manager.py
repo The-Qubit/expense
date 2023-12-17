@@ -49,7 +49,11 @@ class DatabaseManager():
         return self.database.execute("UPDATE subscriptions SET next = ? WHERE id = ?", next, id)
 
     def get_user_subscriptions(self, user_id):
-        return self.database.execute("SELECT title, category, amount, type, start, user_id, period, temporal, next FROM subscriptions WHERE user_id = ?", user_id)
+        return self.database.execute("SELECT id, title, category, amount, type, start, user_id, period, temporal, next FROM subscriptions WHERE user_id = ?", user_id)
     
     def get_all_subscriptions(self):
         return self.database.execute("SELECT * FROM subscriptions")
+    
+    def delete_subscription(self, id):
+        print(id)
+        return self.database.execute("DELETE FROM subscriptions WHERE id = ?", id)

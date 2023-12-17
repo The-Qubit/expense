@@ -1,6 +1,6 @@
-import { Expense } from "./expense.model";
+import { Transaction } from "./expense.model";
 
-export interface Subscription extends Expense {
+export interface Subscription extends Transaction {
     next?: Date;
     temporal: string
     period: number

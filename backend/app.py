@@ -107,6 +107,19 @@ def subscriptions():
 
     return jsonify(subscriptions)
 
+@app.route("/delete_subscription", methods=["POST"])
+def delete_subscription():
+    data = request.get_json()
+
+    session = data.get("session_id", None)
+
+    id = request.args.get("id")
+
+    database_manager.delete_subscription(id)
+
+    return jsonify({"message": "Subscription deleted successfully"}), 201
+
+
 if __name__ == "__main__":
     x = threading.Thread(target=debit_subscriptions, daemon=True)
     x.start()
