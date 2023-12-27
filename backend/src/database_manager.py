@@ -32,7 +32,7 @@ class DatabaseManager():
     def update_session(self, token, expires):
         return self.database.execute("UPDATE sessions SET expires = ? WHERE token = ?", expires, token)
 
-    def insert_expense(self, expense: Transaction):
+    def insert_transaction(self, expense: Transaction):
         return self.database.execute(
             "INSERT INTO transactions (title, category, amount, date, type, user_id) VALUES (?, ?, ?, ?, ?, ?)", 
             expense.title, expense.category, expense.amount, expense.date, expense.type,expense.user)

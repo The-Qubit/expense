@@ -4,7 +4,7 @@ from flask_cors import CORS
 from datetime import datetime
 
 from werkzeug.security import check_password_hash, generate_password_hash
-from src.subscription_processor import debit_subscriptions
+from src.subscription_processor import calculate_next, debit_subscriptions, transactionFromSubscription
 from src.modell import Transaction, Subscription
 
 from src.session_manager import SessionManager
@@ -68,7 +68,7 @@ def expense():
     data.pop("session_id", None)
     
     expense = Transaction(**data)
-    database_manager.insert_expense(expense)
+    database_manager.insert_transaction(expense)
     return jsonify({"message": "Expense added successfully"}), 201
 
 
@@ -77,15 +77,13 @@ def subscription():
     data = request.get_json()
     
     session = data.get("session_id", None)
-    print(session)
-
     data.pop("session_id", None)
 
     subscription = Subscription(**data, next=data.get("date"))
 
     if subscription.next == datetime.now().strftime("%Y-%m-%d"):
-        print(True)
-        # TODO: Add Expense and set next subscription date
+        database_manager.insert_transaction(subscription)
+        subscription.next = calculate_next(subscription.date, subscription.period, subscription.temporal)
 
     database_manager.insert_subscription(subscription)
     return jsonify({"message": "Subscription added successfully"}), 200

@@ -15,7 +15,6 @@ import { AnalyticsComponent } from './pages/analytics/analytics.component';
 import { TransactionsComponent } from './pages/transactions/transactions.component';
 import { YearlyOverviewComponent } from './charts/yearly-overview/yearly-overview.component';
 import { SubscriptionComponent } from './pages/subscription/subscription.component';
-import { PerCategoryComponent } from './charts/per-category/per-category.component';
 import { FormsModule } from '@angular/forms';
 
 @NgModule({
@@ -31,7 +30,6 @@ import { FormsModule } from '@angular/forms';
     TransactionsComponent,
     YearlyOverviewComponent,
     SubscriptionComponent,
-    PerCategoryComponent
   ],
   imports: [
     BrowserModule,

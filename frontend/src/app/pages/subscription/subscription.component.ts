@@ -38,7 +38,7 @@ export class SubscriptionComponent implements OnInit {
   loadSubscriptions() {
     this.expenseService.getSubscriptions(this.dataService.getUserId()).subscribe((data) => {
       // @ts-ignore
-      this.subscriptions = data.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+      this.subscriptions = data.sort((a, b) => new Date(b.next).getTime() - new Date(a.next).getTime());
       this.filteredSubscriptions = this.subscriptions;
     },
       (error) => {
@@ -65,6 +65,7 @@ export class SubscriptionComponent implements OnInit {
       const newSubscription = this.subscriptionForm.value;
       this.expenseService.addSubscription(newSubscription).subscribe(
         (_) => {
+          this.subscriptionForm.reset();
           this.searchQuery = "";
           this.loadSubscriptions();
           this.closeModal();
@@ -120,6 +121,9 @@ export class SubscriptionComponent implements OnInit {
     this.expenseService.deleteSubscription(this.context).subscribe(
       (_) => {
         this.searchQuery = "";
+        this.context = -1;
+        this.newSubscription = true;
+        this.subscriptionForm.reset();
         this.loadSubscriptions();
         this.closeModal();
       },
