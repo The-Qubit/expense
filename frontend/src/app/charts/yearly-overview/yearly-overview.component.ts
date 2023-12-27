@@ -12,7 +12,7 @@ export class YearlyOverviewComponent implements OnInit {
   }
   public chart: any;
 
-  createChart(){
+  public createChart(){
   
     this.chart = new Chart("MyChart", {
       type: 'bar',

@@ -22,78 +22,29 @@
         <canvas id="byMonth" width="100%"></canvas>
     </div>
     <div class="grid-item">
-        <app-per-category></app-per-category>
+        <div>
+            <canvas id="expensePerCategoryChart">{{expensePerCategoryChart}}</canvas>
+          </div>
     </div>
     <div class="grid-item recent-expenses">
         <table class="table table-borderless caption-top">
-            <caption>Recent Expenses</caption>
+            <caption>Recent Transactions</caption>
             <thead>
                 <tr>
-                    <th scope="col">Date</th>
                     <th scope="col">Title</th>
                     <th scope="col">Category</th>
-                    <th scope="col">Cost</th>
+                    <th scope="col">Date</th>
+                    <th scope="col">Amount</th>
                 </tr>
             </thead>
-            <tbody>
-                <tr>
-                    <td>01/01/2023</td>
-                    <td>Aldi</td>
-                    <td>Food</td>
-                    <td>4.08€</td>
-                </tr>
-                <tr>
-                    <td>27/12/2022</td>
-                    <td>McDonalds</td>
-                    <td>Food</td>
-                    <td>9.99€</td>
-                </tr>
-                <tr>
-                    <td>09/11/2022</td>
-                    <td>Brilliant</td>
-                    <td>Subscription</td>
-                    <td>12.99€</td>
+            <tbody class="table-group-divider">
+                <tr *ngFor="let transaction of transactions.slice(0, 3)">
+                    <td>{{ transaction.title }}</td>
+                    <td>{{ transaction.category }}</td>
+                    <td>{{ transaction.date }}</td>
+                    <td [ngStyle]="getColor(transaction.type)"> {{transaction.type}}{{ transaction.amount }} €</td>
                 </tr>
             </tbody>
         </table>
     </div>
 </main>
-<!-- <script>
-    var currentMonth = {
-        labels: ["Spend", "Remaining"],
-        datasets: [{
-            data: [780, 400],
-            backgroundColor: ["#FF6384", "#36A2EB"]
-        }]
-    };
-
-    var ctx = document.getElementById('byMonth').getContext('2d');
-    var doughnutChart = new Chart(ctx, {
-        type: 'doughnut',
-        data: currentMonth,
-        options: {
-            maintainAspectRatio: false,
-            responsive: true,
-            // You can add more options here
-        },
-    });
-
-    var byCategoryData = {
-        labels: ["Food", "Car", "House"],
-        datasets: [{
-            data: [30, 50, 20],
-            backgroundColor: ["#FF6384", "#36A2EB", "#FFCE56"]
-        }]
-    };
-
-    var ctx = document.getElementById('doughnutChart').getContext('2d');
-    var doughnutChart = new Chart(ctx, {
-        type: 'doughnut',
-        data: byCategoryData,
-        options: {
-            maintainAspectRatio: false,
-            responsive: true,
-            // You can add more options here
-        },
-    });
-</script> -->

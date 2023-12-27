@@ -1,6 +1,11 @@
-import requests
+from datetime import datetime
 
-BASE = "http://127.0.0.1:5000/"
+from dateutil.relativedelta import relativedelta
 
-response = requests.get(BASE + "hello/name")
-print(response.json())
+
+date = datetime.now()
+
+
+next = date + relativedelta(days=int(1))
+
+print(next)

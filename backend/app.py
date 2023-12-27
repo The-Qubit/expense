@@ -4,8 +4,8 @@ from flask_cors import CORS
 from datetime import datetime
 
 from werkzeug.security import check_password_hash, generate_password_hash
-from src.subscription_processor import debit_subscriptions
-from src.modell import Expense, Subscription
+from src.subscription_processor import calculate_next, debit_subscriptions, transactionFromSubscription
+from src.modell import Transaction, Subscription
 
 from src.session_manager import SessionManager
 from src.database_manager import DatabaseManager
@@ -67,8 +67,8 @@ def expense():
 
     data.pop("session_id", None)
     
-    expense = Expense(**data)
-    database_manager.insert_expense(expense)
+    expense = Transaction(**data)
+    database_manager.insert_transaction(expense)
     return jsonify({"message": "Expense added successfully"}), 201
 
 
@@ -77,15 +77,13 @@ def subscription():
     data = request.get_json()
     
     session = data.get("session_id", None)
-    print(session)
-
     data.pop("session_id", None)
 
     subscription = Subscription(**data, next=data.get("date"))
 
     if subscription.next == datetime.now().strftime("%Y-%m-%d"):
-        print(True)
-        # TODO: Add Expense and set next subscription date
+        database_manager.insert_transaction(subscription)
+        subscription.next = calculate_next(subscription.date, subscription.period, subscription.temporal)
 
     database_manager.insert_subscription(subscription)
     return jsonify({"message": "Subscription added successfully"}), 200
@@ -96,9 +94,28 @@ def expenses():
     user = request.args.get("user")
 
     expenses = database_manager.get_expenses(user)
-    print(expenses)
 
     return jsonify(expenses)
+
+@app.route("/subscriptions", methods=["GET"])
+def subscriptions():
+    user = request.args.get("user")
+
+    subscriptions = database_manager.get_user_subscriptions(user)
+
+    return jsonify(subscriptions)
+
+@app.route("/delete_subscription", methods=["POST"])
+def delete_subscription():
+    data = request.get_json()
+
+    session = data.get("session_id", None)
+
+    id = request.args.get("id")
+
+    database_manager.delete_subscription(id)
+
+    return jsonify({"message": "Subscription deleted successfully"}), 201
 
 
 if __name__ == "__main__":
