@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { DataService } from 'src/app/data.service';
+import { UserService } from 'src/app/user.service';
 import { ExpenseService } from 'src/app/expense.service';
 import { Transaction } from 'src/models/expense.model';
 
@@ -16,7 +16,7 @@ export class TransactionsComponent implements OnInit {
   displayStyle = "none";
   expenseForm!: FormGroup;
 
-  constructor(private fb: FormBuilder, private expenseService: ExpenseService, private dataService: DataService) {}
+  constructor(private fb: FormBuilder, private expenseService: ExpenseService, private dataService: UserService) {}
   
   ngOnInit(): void {
     this.expenseForm = this.fb.group({

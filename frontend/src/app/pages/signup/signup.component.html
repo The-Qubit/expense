@@ -1,45 +1,47 @@
-<div class="text-center">
-    <h2 class="mb-4">Expense Tracker</h2>
-    <p class="lead">Register For Free!</p>
-</div>
-<div class="container-fluid shadow rounded-2 p-4" style="max-width: 20rem">
-    <form [formGroup]="signupForm" (submit)="signup()">
-        <label for="email" class="form-label">Email</label>
-        <div class="input-group has-validation mb-3">
-            <span class="input-group-text">
-                <i class="bi bi-person-fill"></i>
-            </span>
-            <input [class.is-invalid]="emailInvalid" class="form-control" id="email" formControlName="email" autofocus />
-            <div class="invalid-feedback">
-                Email is already taken!
-            </div>
-        </div>
-        <label for="password" class="form-label">Password</label>
-        <div class="input-group mb-3">
-            <span class="input-group-text">
-                <i class="bi bi-lock-fill"></i>
-            </span>
-            <input [class.is-invalid]="passwordsInvalid" class="form-control" id="password" type="password" formControlName="password"/>
-        </div>
-        <label for="confirmation" class="form-label">Confirm Password</label>
-        <div class="input-group has-validation mb-3">
-            <span class="input-group-text">
-                <i class="bi bi-check-circle-fill"></i>
-            </span>
-            <input [class.is-invalid]="passwordsInvalid" class="form-control" id="confirmation" type="password"
-                formControlName="confirmation"/>
-            <div class="invalid-feedback">
-                Passwords do not match!
-            </div>
-        </div>
-        <div class="text-center mb-2">
-            <button class="btn btn-primary" type="submit">Register</button>
-        </div>
-    </form>
+<div style="margin-top: 12vh;">
     <div class="text-center">
-        <p class="fs-6">
-            Already have an account?
-            <a class="link-underline link-underline-opacity-0" routerLinkActive="active" routerLink="../login">Login</a>
-        </p>
+        <h2 class="mb-4">Expense Tracker</h2>
+        <p class="lead">Register For Free!</p>
+    </div>
+    <div class="container-fluid shadow rounded-2 p-4" style="max-width: 20rem">
+        <form [formGroup]="signupForm" (submit)="signup()">
+            <label for="email" class="form-label">Email</label>
+            <div class="input-group has-validation mb-3">
+                <span class="input-group-text">
+                    <i class="bi bi-person-fill"></i>
+                </span>
+                <input [class.is-invalid]="emailInvalid" class="form-control" id="email" formControlName="email" autofocus />
+                <div class="invalid-feedback">
+                    Email is already taken!
+                </div>
+            </div>
+            <label for="password" class="form-label">Password</label>
+            <div class="input-group mb-3">
+                <span class="input-group-text">
+                    <i class="bi bi-lock-fill"></i>
+                </span>
+                <input [class.is-invalid]="passwordsInvalid" class="form-control" id="password" type="password" formControlName="password"/>
+            </div>
+            <label for="confirmation" class="form-label">Confirm Password</label>
+            <div class="input-group has-validation mb-3">
+                <span class="input-group-text">
+                    <i class="bi bi-check-circle-fill"></i>
+                </span>
+                <input [class.is-invalid]="passwordsInvalid" class="form-control" id="confirmation" type="password"
+                    formControlName="confirmation"/>
+                <div class="invalid-feedback">
+                    Passwords do not match!
+                </div>
+            </div>
+            <div class="text-center mb-2">
+                <button class="btn btn-primary" type="submit">Register</button>
+            </div>
+        </form>
+        <div class="text-center">
+            <p class="fs-6">
+                Already have an account?
+                <a class="link-underline link-underline-opacity-0" routerLinkActive="active" routerLink="../login">Login</a>
+            </p>
+        </div>
     </div>
 </div>

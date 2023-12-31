@@ -13,7 +13,6 @@ import { NavbarComponent } from './pages/navbar/navbar.component';
 import { SettingsComponent } from './pages/settings/settings.component';
 import { AnalyticsComponent } from './pages/analytics/analytics.component';
 import { TransactionsComponent } from './pages/transactions/transactions.component';
-import { YearlyOverviewComponent } from './charts/yearly-overview/yearly-overview.component';
 import { SubscriptionComponent } from './pages/subscription/subscription.component';
 import { FormsModule } from '@angular/forms';
 
@@ -28,7 +27,6 @@ import { FormsModule } from '@angular/forms';
     SettingsComponent,
     AnalyticsComponent,
     TransactionsComponent,
-    YearlyOverviewComponent,
     SubscriptionComponent,
   ],
   imports: [

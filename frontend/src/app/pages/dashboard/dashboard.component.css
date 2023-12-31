@@ -10,8 +10,7 @@
         'four'
         'five'
         'six'
-        'seven'
-        'eight';
+        'seven';
     /* padding-block: 2rem; */
     padding: 1rem;
 }
@@ -93,7 +92,7 @@
     .grid-container {
         grid-template-areas:
             "one two three four"
-            "five five five six"
-            "seven eight eight eight";
+            "five five five five"
+            "six seven seven seven";
     }
 }

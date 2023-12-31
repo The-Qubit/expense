@@ -1,21 +1,16 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
-export class DataService {
+export class UserService {
   private apiUrl = 'http://127.0.0.1:5000/';  // Update with your Flask app's URL
   private token = "";
   private userId = -1;
 
-  constructor(private http: HttpClient) {
-  }
-
-  public getData(): Observable<any> {
-    return this.http.get(this.apiUrl + 'hello');
-  }
+  constructor(private http: HttpClient) {}
 
   public isEmailUsed(email: string): Observable<any> {
     const data = { email: email };
@@ -34,6 +29,10 @@ export class DataService {
 
   public setToken(token: string): void {
     this.token = token;
+
+    const expires = new Date().setDate(new Date().getDate() + 1);
+
+    document.cookie = "session=" + token; + expires;
   }
 
   public getToken() {
@@ -41,6 +40,18 @@ export class DataService {
   }
 
   public isLoggedIn() {
+    if (this.token === "") {
+      const cookies = document.cookie.split(";");
+
+      if (cookies.length > 0) {
+        cookies.forEach((cookie) => {
+          if(cookie.includes("session")) {
+            this.token = cookie.split("=")[1];
+          }
+        })
+      }
+    }
+    console.log(this.token)
     return this.token !== "";
   }
 

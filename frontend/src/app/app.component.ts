@@ -1,30 +1,21 @@
 import { Component, OnInit } from '@angular/core';
-import { DataService } from './data.service';
+import { UserService } from './user.service';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent implements OnInit {
+export class AppComponent {
   private title = "Expense Tracker";
   // @ts-ignore 
   message: string;
 
-  constructor(private apiService: DataService) {
-    this.apiService = apiService;
+  constructor(private userService: UserService) {
+    this.userService = userService;
   }
 
   isLoggedIn(): boolean {
-    return this.apiService.isLoggedIn();
-  }
-
-  
-
-  ngOnInit() {
-    this.apiService.getData().subscribe((data) => {
-      console.log(data)
-      this.message = data.message;
-    });
+    return this.userService.isLoggedIn();
   }
 }

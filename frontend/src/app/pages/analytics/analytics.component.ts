@@ -1,6 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { DataService } from 'src/app/data.service';
-import { ExpenseService } from 'src/app/expense.service';
 
 @Component({
   selector: 'app-analytics',

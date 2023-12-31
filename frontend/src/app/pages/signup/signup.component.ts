@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
-import { DataService } from 'src/app/data.service';
+import { UserService } from 'src/app/user.service';
 
 @Component({
   selector: 'app-signup',
@@ -19,7 +19,7 @@ export class SignupComponent {
     confirmation: new FormControl('')
   });
 
-  constructor(private apiService: DataService, private router: Router) { }
+  constructor(private userService: UserService, private router: Router) { }
 
   public signup() {
     if (!(this.signupForm.value.email && this.signupForm.value.password && this.signupForm.value.confirmation)) {
@@ -29,12 +29,12 @@ export class SignupComponent {
     const password = this.signupForm.value.password;
 
     this.passwordsInvalid = ((password) !== (this.signupForm.value.confirmation));
-    this.apiService.isEmailUsed(email).subscribe((data) => {
+    this.userService.isEmailUsed(email).subscribe((data) => {
       this.emailInvalid = data.is_used;
       if (this.emailInvalid || this.passwordsInvalid) {
         return
       } else {
-        this.apiService.signUp(email, password).subscribe()
+        this.userService.signUp(email, password).subscribe()
         this.router.navigate(['/login']);
       }
     });

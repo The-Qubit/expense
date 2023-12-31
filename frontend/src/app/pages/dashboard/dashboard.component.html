@@ -1,30 +1,29 @@
 <main class="grid-container">
     <div class="grid-item">
-        <b>4,000$</b>
-        <div>Electronics</div>
+        <div>Total Income</div>
+        <b>+{{totalIncome}} €</b>
     </div>
     <div class="grid-item">
-        <b>300$</b>
-        <div>Food</div>
+        <div>Total Expenses</div>
+        <b>-{{totalExpenses}} €</b>
     </div>
     <div class="grid-item">
-        <b>40,000$</b>
         <div>Spend this year</div>
+        <b>{{thisYearExpenses}} €</b>
     </div>
     <div class="grid-item">
-        <b>+1,200$</b>
         <div>Balance</div>
-    </div>
-    <div class="grid-item">
-        <app-yearly-overview></app-yearly-overview>
-    </div>
-    <div class="grid-item">
-        <canvas id="byMonth" width="100%"></canvas>
+        <b [ngStyle]="getColor(getSign(totalIncome - totalExpenses))">{{ totalIncome - totalExpenses }} €</b>
     </div>
     <div class="grid-item">
         <div>
-            <canvas id="expensePerCategoryChart">{{expensePerCategoryChart}}</canvas>
-          </div>
+            <canvas id="yearlyOverviewChart">{{ yearlyOverviewChart }}</canvas>
+        </div>
+    </div>
+    <div class="grid-item">
+        <div>
+            <canvas id="expensePerCategoryChart">{{ expensePerCategoryChart }}</canvas>
+        </div>
     </div>
     <div class="grid-item recent-expenses">
         <table class="table table-borderless caption-top">

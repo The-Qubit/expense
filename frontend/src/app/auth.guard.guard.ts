@@ -1,16 +1,16 @@
 // auth.guard.ts
 import { Injectable } from '@angular/core';
 import { CanActivate, Router } from '@angular/router';
-import { DataService } from "./data.service"
+import { UserService } from "./user.service"
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthGuard implements CanActivate {
-  constructor(private dataService: DataService, private router: Router) {}
+  constructor(private userService: UserService, private router: Router) {}
 
   canActivate(): boolean {
-    if (this.dataService.isLoggedIn()) {
+    if (this.userService.isLoggedIn()) {
       return true;
     } else {
       this.router.navigate(['/login']);

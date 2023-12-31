@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
-import { DataService } from 'src/app/data.service';
+import { UserService } from 'src/app/user.service';
 
 @Component({
   selector: 'app-login',
@@ -16,14 +16,14 @@ export class LoginComponent {
     password: new FormControl(''),
   });
 
-  constructor(private apiService: DataService, private router: Router) { }
+  constructor(private userService: UserService, private router: Router) { }
 
   public login() {
     if (this.loginForm.value.email && this.loginForm.value.password) {
-      this.apiService.login(this.loginForm.value.email, this.loginForm.value.password).subscribe((data) => {
+      this.userService.login(this.loginForm.value.email, this.loginForm.value.password).subscribe((data) => {
         this.loginInvalid = false;
-        this.apiService.setToken(data.token)
-        this.apiService.setUserId(data.id)
+        this.userService.setToken(data.token)
+        this.userService.setUserId(data.id)
         this.router.navigate(['/dashboard']);
       },
       (_error) => {
