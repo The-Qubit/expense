@@ -105,6 +105,22 @@ def subscriptions():
 
     return jsonify(subscriptions)
 
+@app.route("/update_subscription", methods=["POST"])
+def update_subscription():
+    data = request.get_json()
+    
+    session = data.get("session_id", None)
+    data.pop("session_id", None)
+
+    
+    subscription = Subscription(**data, next=data.get("date"))
+
+    print(subscription)
+
+    database_manager.update_subscription(subscription)
+    return jsonify({"message": "Subscription updated successfully"}), 201
+
+
 @app.route("/delete_subscription", methods=["POST"])
 def delete_subscription():
     data = request.get_json()
