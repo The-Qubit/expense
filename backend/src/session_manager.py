@@ -16,7 +16,7 @@ class SessionManager:
         
     def is_valid(self, token):
         session = self.database_manager.get_session(token)
-        if session != None and session.expires < datetime.now():
+        if session != None and not datetime.strptime(session["expires"], '%Y-%m-%d %H:%M:%S') < datetime.now():
             return True
         return False
 

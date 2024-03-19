@@ -16,7 +16,7 @@ export class TransactionsComponent implements OnInit {
   displayStyle = "none";
   expenseForm!: FormGroup;
 
-  constructor(private fb: FormBuilder, private expenseService: ExpenseService, private dataService: UserService) {}
+  constructor(private fb: FormBuilder, private expenseService: ExpenseService, private userService: UserService) {}
   
   ngOnInit(): void {
     this.expenseForm = this.fb.group({
@@ -25,14 +25,14 @@ export class TransactionsComponent implements OnInit {
       amount: [0, [Validators.required, Validators.min(0)]],
       date: [new Date(), Validators.required],
       type: ['-', Validators.required],
-      user: this.dataService.getUserId()
+      user: this.userService.getUserId()
     });
     this.loadTransactions();
   }
 
 
   loadTransactions() {
-    this.expenseService.getTransactions(this.dataService.getUserId())
+    this.expenseService.getTransactions(this.userService.getUserId())
       .subscribe(
         (data) => {
           // @ts-ignore
