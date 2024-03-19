@@ -16,10 +16,6 @@ CORS(app)
 database_manager = DatabaseManager()
 session_manager = SessionManager()
 
-@app.route("/hello")
-def get():
-    return {"message": "Hello, welcome to the API!"}
-
 
 @app.route("/isEmailUsed")
 def isEmailUsed():
@@ -58,16 +54,18 @@ def login():
 
     return jsonify({"error": "Invalid email or password"}), 401
 
+
 @app.route("/expense", methods=["POST"])
 def expense():
     data = request.get_json()
 
     session = data.get("session_id", None)
-    print(session)
+    if not session_manager.is_valid(session):
+        return jsonify({"message":"Invalid session. Please login!"}), 401
 
     data.pop("session_id", None)
     
-    expense = Transaction(**data)
+    expense = Transaction(**data, id=None)
     database_manager.insert_transaction(expense)
     return jsonify({"message": "Expense added successfully"}), 201
 
@@ -77,9 +75,12 @@ def subscription():
     data = request.get_json()
     
     session = data.get("session_id", None)
+    if not session_manager.is_valid(session):
+        return jsonify({"message":"Invalid session. Please login!"}), 401
+
     data.pop("session_id", None)
 
-    subscription = Subscription(**data, next=data.get("date"))
+    subscription = Subscription(**data, next=data.get("date"), id=None)
 
     if subscription.next == datetime.now().strftime("%Y-%m-%d"):
         database_manager.insert_transaction(subscription)
@@ -93,29 +94,38 @@ def subscription():
 def expenses():
     user = request.args.get("user")
 
+    session = request.args.get("session_id", None)
+    if not session_manager.is_valid(session):
+        return jsonify({"message":"Invalid session. Please login!"}), 401
     expenses = database_manager.get_expenses(user)
 
     return jsonify(expenses)
+
 
 @app.route("/subscriptions", methods=["GET"])
 def subscriptions():
     user = request.args.get("user")
 
+    session = request.args.get("session_id", None)
+    if not session_manager.is_valid(session):
+        return jsonify({"message":"Invalid session. Please login!"}), 401
+
     subscriptions = database_manager.get_user_subscriptions(user)
 
     return jsonify(subscriptions)
+
 
 @app.route("/update_subscription", methods=["POST"])
 def update_subscription():
     data = request.get_json()
     
     session = data.get("session_id", None)
+    if not session_manager.is_valid(session):
+        return jsonify({"message":"Invalid session. Please login!"}), 401
+
     data.pop("session_id", None)
 
-    
     subscription = Subscription(**data, next=data.get("date"))
-
-    print(subscription)
 
     database_manager.update_subscription(subscription)
     return jsonify({"message": "Subscription updated successfully"}), 201
@@ -126,11 +136,12 @@ def delete_subscription():
     data = request.get_json()
 
     session = data.get("session_id", None)
+    if not session_manager.is_valid(session):
+        return jsonify({"message":"Invalid session. Please login!"}), 401
 
     id = request.args.get("id")
 
     database_manager.delete_subscription(id)
-
     return jsonify({"message": "Subscription deleted successfully"}), 201
 
 
