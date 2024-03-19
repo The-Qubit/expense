@@ -21,15 +21,19 @@ export class ExpenseService {
   addSubscription(subscription: Subscription): Observable<any> {
     return this.http.post<any>(`${this.apiUrl}/subscription`, {...subscription, session_id: this.userService.getToken()});
   }
-
+  
   getTransactions(user: number): Observable<any> {
     const data = { user: user,  session_id: this.userService.getToken() };
     return this.http.get<any>(`${this.apiUrl}/expenses`, {params: data});
   }
-
+  
   getSubscriptions(user: number): Observable<any> {
     const data = { user: user,  session_id: this.userService.getToken() };
     return this.http.get<any>(`${this.apiUrl}/subscriptions`, {params: data});
+  }
+    
+  upateSubscription(subscription: Subscription): Observable<any> {
+      return this.http.post<any>(`${this.apiUrl}/update_subscription`, {...subscription, session_id: this.userService.getToken()});
   }
 
   deleteSubscription(subscription_id: number): Observable<any> {

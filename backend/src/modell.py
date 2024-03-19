@@ -11,6 +11,7 @@ class Session():
 
 @dataclass
 class Transaction():
+    id: int
     title: str
     category: str
     amount: float

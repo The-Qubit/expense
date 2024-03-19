@@ -36,6 +36,7 @@ export class SubscriptionComponent implements OnInit {
 
   loadSubscriptions() {
     this.expenseService.getSubscriptions(this.dataService.getUserId()).subscribe((data) => {
+      console.log(data)
       // @ts-ignore
       this.subscriptions = data.sort((a, b) => new Date(b.next).getTime() - new Date(a.next).getTime());
       this.filteredSubscriptions = this.subscriptions;
@@ -46,7 +47,6 @@ export class SubscriptionComponent implements OnInit {
   }
 
   updateFilter(): void {
-    console.log("HEY")
     const query = this.searchQuery.toLowerCase()
     this.filteredSubscriptions = this.subscriptions.filter(subscription =>
       subscription.title.toLowerCase().includes(query) ||
@@ -74,6 +74,24 @@ export class SubscriptionComponent implements OnInit {
         }
       );
     }
+  }
+
+  updateSubscription() {
+    if (this.subscriptionForm.valid) {
+      const updatedSubscription = this.subscriptionForm.value;
+      updatedSubscription.id = this.context;
+      this.expenseService.upateSubscription(updatedSubscription).subscribe(
+        (_) => {
+          this.subscriptionForm.reset();
+          this.searchQuery = "";
+          this.ngOnInit();
+          this.closeModal();
+        },
+        (error) => {
+          console.error('Error updating subscription', error);
+        }
+      );
+    } 
   }
   openModal(): void {
     this.displayStyle = "block";
