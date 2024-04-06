@@ -24,6 +24,7 @@ export class LoginComponent {
         this.loginInvalid = false;
         this.userService.setToken(data.token)
         this.userService.setUserId(data.id)
+        this.userService.setCurrency(data.currency)
         this.router.navigate(['/dashboard']);
       },
       (_error) => {

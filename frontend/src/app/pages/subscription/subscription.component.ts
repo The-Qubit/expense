@@ -36,7 +36,6 @@ export class SubscriptionComponent implements OnInit {
 
   loadSubscriptions() {
     this.expenseService.getSubscriptions(this.dataService.getUserId()).subscribe((data) => {
-      console.log(data)
       // @ts-ignore
       this.subscriptions = data.sort((a, b) => new Date(b.next).getTime() - new Date(a.next).getTime());
       this.filteredSubscriptions = this.subscriptions;

@@ -6,9 +6,11 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class UserService {
+
   private apiUrl = 'http://127.0.0.1:5000/';  // Update with your Flask app's URL
   private token = "";
   private userId = -1;
+  private currency = "";
 
   constructor(private http: HttpClient) {}
 
@@ -25,6 +27,11 @@ export class UserService {
   public login(email: string, password: string): Observable<any> {
     const data = { email: email, password: password };
     return this.http.post<any>(this.apiUrl + 'login', data);
+  }
+
+  public updateCurrency(currency: string) {
+    const data = { "currency": currency, "user": this.userId };
+    return this.http.post<any>(this.apiUrl + 'currency', data);
   }
 
   public setToken(token: string): void {
@@ -51,7 +58,6 @@ export class UserService {
         })
       }
     }
-    console.log(this.token)
     return this.token !== "";
   }
 
@@ -61,5 +67,13 @@ export class UserService {
 
   public getUserId(): number {
     return this.userId;
+  }
+
+  public setCurrency(currency: string) {
+    this.currency = currency;
+  }
+
+  public getCurrency() {
+    return this.currency;
   }
 }
