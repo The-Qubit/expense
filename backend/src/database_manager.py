@@ -20,6 +20,11 @@ class DatabaseManager():
     def insert_user(self, email, hash):
         self.database.execute(
             "INSERT INTO users (email, hash) VALUES (?, ?)", email, hash)
+        
+    def update_currency(self, id, currency):
+        self.database.execute(
+            "UPDATE users SET currency = ? WHERE id = ?", currency, id)
+
 
     def get_session(self, token) -> Session:
         session = self.database.execute(

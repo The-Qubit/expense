@@ -28,6 +28,10 @@ export class DashboardComponent implements OnInit{
   ngOnInit(): void {
     this.loadTransactions();
   }
+
+  getCurrency() {
+    return this.userService.getCurrency();
+  }
   
   loadTransactions() {
     this.expenseService.getTransactions(this.userService.getUserId())

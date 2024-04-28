@@ -6,11 +6,14 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class UserService {
+
   private apiUrl = 'http://127.0.0.1:5000/';  // Update with your Flask app's URL
   private token = "";
   private userId = -1;
+  private currency = "";
+  private currencyMapping: { [key: string]: string } = {"D": "$", "E": "€", "P": "£", "Y": "¥"};
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   public isEmailUsed(email: string): Observable<any> {
     const data = { email: email };
@@ -25,6 +28,12 @@ export class UserService {
   public login(email: string, password: string): Observable<any> {
     const data = { email: email, password: password };
     return this.http.post<any>(this.apiUrl + 'login', data);
+  }
+
+  public updateCurrency(currency: string) {
+    this.currency = currency;
+    const data = { "currency": currency, "user": this.userId };
+    return this.http.post<any>(this.apiUrl + 'currency', data);
   }
 
   public setToken(token: string): void {
@@ -45,13 +54,12 @@ export class UserService {
 
       if (cookies.length > 0) {
         cookies.forEach((cookie) => {
-          if(cookie.includes("session")) {
+          if (cookie.includes("session")) {
             this.token = cookie.split("=")[1];
           }
         })
       }
     }
-    console.log(this.token)
     return this.token !== "";
   }
 
@@ -61,5 +69,17 @@ export class UserService {
 
   public getUserId(): number {
     return this.userId;
+  }
+
+  public setCurrency(currency: string) {
+    this.currency = currency;
+  }
+
+  public getCurrencyAbbreviation() {
+    return this.currency;
+  }
+
+  public getCurrency() {
+    return this.currencyMapping[this.currency];
   }
 }

@@ -50,10 +50,23 @@ def login():
         account = database_manager.get_user(email.lower())
         if account != None and check_password_hash(account["hash"], password):
             token = session_manager.new_session(account["id"])
-            return jsonify({'token': token, 'id': account["id"]}), 200
+            return jsonify({'token': token, 'id': account["id"], "currency": account["currency"]}), 200
 
     return jsonify({"error": "Invalid email or password"}), 401
 
+
+@app.route("/currency", methods = ['POST'])
+def currency():
+        data = request.get_json()
+        currency: str = data.get("currency")
+        user: str = data.get("user")
+        
+        print(user)
+        print(currency)
+
+        database_manager.update_currency(user, currency)
+
+        return jsonify({"message": "Currency updated successfully"}), 201
 
 @app.route("/expense", methods=["POST"])
 def expense():

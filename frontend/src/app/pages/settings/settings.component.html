@@ -1,1 +1,10 @@
-<p>settings works!</p>
+<div class="container">
+  <h2>Settings</h2>
+  <br>
+  <h5>Currency</h5>
+  <form [formGroup]="currencyForm">
+    <select (change)="updateCurrency($event)" class="form-select" name="currency" id="currency" formControlName="currency">
+      <option *ngFor="let c of currencies" [value]="c.abbreviation">{{ c.name }}</option>
+    </select>
+  </form>
+</div>
