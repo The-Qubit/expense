@@ -1,19 +1,19 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
-
   private apiUrl = 'http://127.0.0.1:5000/';  // Update with your Flask app's URL
   private token = "";
   private userId = -1;
   private currency = "";
   private currencyMapping: { [key: string]: string } = {"D": "$", "E": "€", "P": "£", "Y": "¥"};
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private router: Router) { }
 
   public isEmailUsed(email: string): Observable<any> {
     const data = { email: email };
@@ -61,6 +61,13 @@ export class UserService {
       }
     }
     return this.token !== "";
+  }
+
+  logout() {
+    const expirationDate = new Date(0).toUTCString();
+    document.cookie = "session=; expires=" + expirationDate;
+    this.token = "";
+    this.router.navigate(['/login']);
   }
 
   public setUserId(id: number): void {
