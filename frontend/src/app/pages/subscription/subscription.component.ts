@@ -18,7 +18,7 @@ export class SubscriptionComponent implements OnInit {
   context = -1;
 
 
-  constructor(private fb: FormBuilder, private expenseService: ExpenseService, private dataService: UserService) { }
+  constructor(private fb: FormBuilder, private expenseService: ExpenseService, private userService: UserService) { }
 
   ngOnInit(): void {
     this.subscriptionForm = this.fb.group({
@@ -27,7 +27,7 @@ export class SubscriptionComponent implements OnInit {
       amount: [0, [Validators.required, Validators.min(0)]],
       type: ['-', Validators.required],
       date: [new Date(), Validators.required],
-      user: this.dataService.getUserId(),
+      user: this.userService.getUserId(),
       temporal: ['m', Validators.required],
       period: [1, [Validators.required, Validators.min(1)]]
     });
@@ -35,7 +35,7 @@ export class SubscriptionComponent implements OnInit {
   }
 
   loadSubscriptions() {
-    this.expenseService.getSubscriptions(this.dataService.getUserId()).subscribe((data) => {
+    this.expenseService.getSubscriptions(this.userService.getUserId()).subscribe((data) => {
       // @ts-ignore
       this.subscriptions = data.sort((a, b) => new Date(b.next).getTime() - new Date(a.next).getTime());
       this.filteredSubscriptions = this.subscriptions;
@@ -147,5 +147,9 @@ export class SubscriptionComponent implements OnInit {
         console.error('Error adding subscription', error);
       }
     );
+  }
+
+  getCurrency() {
+    return this.userService.getCurrency();
   }
 }

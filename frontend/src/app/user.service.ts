@@ -11,8 +11,9 @@ export class UserService {
   private token = "";
   private userId = -1;
   private currency = "";
+  private currencyMapping: { [key: string]: string } = {"D": "$", "E": "€", "P": "£", "Y": "¥"};
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   public isEmailUsed(email: string): Observable<any> {
     const data = { email: email };
@@ -30,6 +31,7 @@ export class UserService {
   }
 
   public updateCurrency(currency: string) {
+    this.currency = currency;
     const data = { "currency": currency, "user": this.userId };
     return this.http.post<any>(this.apiUrl + 'currency', data);
   }
@@ -52,7 +54,7 @@ export class UserService {
 
       if (cookies.length > 0) {
         cookies.forEach((cookie) => {
-          if(cookie.includes("session")) {
+          if (cookie.includes("session")) {
             this.token = cookie.split("=")[1];
           }
         })
@@ -73,7 +75,11 @@ export class UserService {
     this.currency = currency;
   }
 
-  public getCurrency() {
+  public getCurrencyAbbreviation() {
     return this.currency;
+  }
+
+  public getCurrency() {
+    return this.currencyMapping[this.currency];
   }
 }

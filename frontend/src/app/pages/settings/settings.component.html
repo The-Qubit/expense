@@ -2,10 +2,9 @@
   <h2>Settings</h2>
   <br>
   <h5>Currency</h5>
-  <select (change)="updateCurrency($event)" class="form-select" name="currency" id="currency">
-    <option value="D">$ Dollar</option>
-    <option value="E">€ Euro</option>
-    <option value="Y">¥ Yen</option>
-    <option value="P">£ Pound</option>
-  </select>
+  <form [formGroup]="currencyForm">
+    <select (change)="updateCurrency($event)" class="form-select" name="currency" id="currency" formControlName="currency">
+      <option *ngFor="let c of currencies" [value]="c.abbreviation">{{ c.name }}</option>
+    </select>
+  </form>
 </div>

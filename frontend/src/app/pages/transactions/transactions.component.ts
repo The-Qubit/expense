@@ -86,4 +86,8 @@ export class TransactionsComponent implements OnInit {
       return { color: 'red'};
     }
   }
+
+  getCurrency() {
+    return this.userService.getCurrency();
+  }
 }

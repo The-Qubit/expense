@@ -11,7 +11,6 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { SidebarComponent } from './pages/sidebar/sidebar.component';
 import { NavbarComponent } from './pages/navbar/navbar.component';
 import { SettingsComponent } from './pages/settings/settings.component';
-import { AnalyticsComponent } from './pages/analytics/analytics.component';
 import { TransactionsComponent } from './pages/transactions/transactions.component';
 import { SubscriptionComponent } from './pages/subscription/subscription.component';
 import { FormsModule } from '@angular/forms';
@@ -25,7 +24,6 @@ import { FormsModule } from '@angular/forms';
     SidebarComponent,
     NavbarComponent,
     SettingsComponent,
-    AnalyticsComponent,
     TransactionsComponent,
     SubscriptionComponent,
   ],
