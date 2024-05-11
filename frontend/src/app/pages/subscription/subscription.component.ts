@@ -34,8 +34,8 @@ export class SubscriptionComponent implements OnInit {
     this.loadSubscriptions();
   }
 
-  loadSubscriptions() {
-    this.expenseService.getSubscriptions(this.userService.getUserId()).subscribe((data) => {
+  async loadSubscriptions() {
+    this.expenseService.getSubscriptions(await this.userService.getUserId()).subscribe((data) => {
       // @ts-ignore
       this.subscriptions = data.sort((a, b) => new Date(b.next).getTime() - new Date(a.next).getTime());
       this.filteredSubscriptions = this.subscriptions;

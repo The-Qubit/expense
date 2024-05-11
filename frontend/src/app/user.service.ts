@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
@@ -13,7 +13,23 @@ export class UserService {
   private currency = "";
   private currencyMapping: { [key: string]: string } = {"D": "$", "E": "€", "P": "£", "Y": "¥"};
 
-  constructor(private http: HttpClient, private router: Router) { }
+  constructor(private http: HttpClient, private router: Router) {
+    const cookies = document.cookie.split(";");
+
+    if (cookies.length > 0) {
+      cookies.forEach((cookie) => {
+        if (cookie.includes("session")) {
+          this.token = cookie.split("=")[1];
+
+          const response = this.http.get(this.apiUrl + "getUserId", {params: {token: this.token}}).subscribe((data) => {
+            //@ts-ignore
+            this.userId = data.user_id;
+            }
+          );
+        }
+      })
+    }
+  }
 
   public isEmailUsed(email: string): Observable<any> {
     const data = { email: email };
@@ -38,10 +54,7 @@ export class UserService {
 
   public setToken(token: string): void {
     this.token = token;
-
-    const expires = new Date().setDate(new Date().getDate() + 1);
-
-    document.cookie = "session=" + token; + expires;
+    document.cookie = "session=" + token;
   }
 
   public getToken() {
@@ -49,17 +62,6 @@ export class UserService {
   }
 
   public isLoggedIn() {
-    if (this.token === "") {
-      const cookies = document.cookie.split(";");
-
-      if (cookies.length > 0) {
-        cookies.forEach((cookie) => {
-          if (cookie.includes("session")) {
-            this.token = cookie.split("=")[1];
-          }
-        })
-      }
-    }
     return this.token !== "";
   }
 
@@ -74,7 +76,12 @@ export class UserService {
     this.userId = id;
   }
 
-  public getUserId(): number {
+  public async getUserId(): Promise<number> {
+    if (this.userId === -1) {
+      var result = await this.http.get(this.apiUrl + "getUserId", {params: {token: this.token}}).toPromise();
+      // @ts-ignore
+      this.userId = result.user_id;
+    }
     return this.userId;
   }
 

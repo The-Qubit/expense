@@ -33,6 +33,15 @@ class DatabaseManager():
             return None
         return session[0]
 
+
+    def get_user_id(self, token):
+        user_id = self.database.execute(
+            "SELECT user_id FROM sessions WHERE token = ?", token)
+        if len(user_id) == 0:
+            return None
+        return user_id[0]
+
+
     def insert_session(self, token, expires, user_id):
         self.database.execute(
             "INSERT INTO sessions (token, expires, user_id) VALUES (?, ?, ?)", token, expires, user_id)

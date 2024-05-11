@@ -31,8 +31,8 @@ export class TransactionsComponent implements OnInit {
   }
 
 
-  loadTransactions() {
-    this.expenseService.getTransactions(this.userService.getUserId())
+  async loadTransactions() {
+    this.expenseService.getTransactions(await this.userService.getUserId())
       .subscribe(
         (data) => {
           // @ts-ignore

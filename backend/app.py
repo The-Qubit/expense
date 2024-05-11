@@ -158,6 +158,14 @@ def delete_subscription():
     return jsonify({"message": "Subscription deleted successfully"}), 201
 
 
+
+@app.route("/getUserId", methods=["GET"])
+def get_user_id():
+    token = request.args.get("token")
+    user_id = database_manager.get_user_id(token)
+
+    return jsonify(user_id), 200
+
 if __name__ == "__main__":
     x = threading.Thread(target=debit_subscriptions, daemon=True)
     x.start()
