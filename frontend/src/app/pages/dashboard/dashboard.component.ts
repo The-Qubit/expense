@@ -21,6 +21,7 @@ export class DashboardComponent implements OnInit {
   totalIncome = 0;
   balance = 0;
   yearlyTransactions: MonthlyTransaction[] = [];
+  currency = "";
 
 
   constructor(private expenseService: ExpenseService, private userService: UserService) { 
@@ -28,10 +29,11 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadTransactions();
+    this.getCurrency();
   }
 
-  getCurrency() {
-    return this.userService.getCurrency();
+  async getCurrency() {
+    this.currency = await this.userService.getCurrency();
   }
 
   async loadTransactions() {
@@ -141,5 +143,9 @@ export class DashboardComponent implements OnInit {
         income: 0,
       });
     }
+  }
+
+  round(number: number) {
+    return Math.round(number * 100)/100;
   }
 }

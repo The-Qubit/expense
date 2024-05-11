@@ -15,19 +15,26 @@ export class TransactionsComponent implements OnInit {
   searchQuery: string = "";
   displayStyle = "none";
   expenseForm!: FormGroup;
+  currency = "";
 
-  constructor(private fb: FormBuilder, private expenseService: ExpenseService, private userService: UserService) {}
-  
-  ngOnInit(): void {
+  constructor(private fb: FormBuilder, private expenseService: ExpenseService, private userService: UserService) {
     this.expenseForm = this.fb.group({
       title: ['', Validators.required],
       category: ['', Validators.required],
       amount: [0, [Validators.required, Validators.min(0)]],
       date: [new Date(), Validators.required],
       type: ['-', Validators.required],
-      user: this.userService.getUserId()
+      user: -1
     });
+  }
+  
+  async ngOnInit(): Promise<void> {
+    this.userService.getUserId().then(userId => {
+      // @ts-ignore
+        this.expenseForm.get('user').setValue(userId);
+      });
     this.loadTransactions();
+    this.getCurrency();
   }
 
 
@@ -57,6 +64,7 @@ export class TransactionsComponent implements OnInit {
   addExpense() {
     if (this.expenseForm.valid) {
       const newExpense = this.expenseForm.value;
+      console.log(newExpense)
       this.expenseService.addExpense(newExpense).subscribe(
         (_) => {
           this.searchQuery = "";
@@ -87,7 +95,7 @@ export class TransactionsComponent implements OnInit {
     }
   }
 
-  getCurrency() {
-    return this.userService.getCurrency();
+  async getCurrency() {
+    this.currency = await this.userService.getCurrency();
   }
 }

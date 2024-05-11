@@ -79,6 +79,7 @@ def expense():
     data.pop("session_id", None)
     
     expense = Transaction(**data, id=None)
+    print(expense)
     database_manager.insert_transaction(expense)
     return jsonify({"message": "Expense added successfully"}), 201
 
@@ -140,6 +141,7 @@ def update_subscription():
 
     subscription = Subscription(**data, next=data.get("date"))
 
+    subscription.user = database_manager.get_user_information(session)["user_id"]
     database_manager.update_subscription(subscription)
     return jsonify({"message": "Subscription updated successfully"}), 201
 
@@ -159,12 +161,13 @@ def delete_subscription():
 
 
 
-@app.route("/getUserId", methods=["GET"])
-def get_user_id():
+@app.route("/getUserInformation", methods=["GET"])
+def get_user_information():
     token = request.args.get("token")
-    user_id = database_manager.get_user_id(token)
+    user_information = database_manager.get_user_information(token)
 
-    return jsonify(user_id), 200
+    print(user_information)
+    return jsonify(user_information), 200
 
 if __name__ == "__main__":
     x = threading.Thread(target=debit_subscriptions, daemon=True)

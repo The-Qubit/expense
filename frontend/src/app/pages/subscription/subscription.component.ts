@@ -16,22 +16,29 @@ export class SubscriptionComponent implements OnInit {
   displayStyle = "none";
   newSubscription = true;
   context = -1;
+  currency = "";
 
 
-  constructor(private fb: FormBuilder, private expenseService: ExpenseService, private userService: UserService) { }
-
-  ngOnInit(): void {
+  constructor(private fb: FormBuilder, private expenseService: ExpenseService, private userService: UserService) {
     this.subscriptionForm = this.fb.group({
       title: ['', Validators.required],
       category: ['', Validators.required],
       amount: [0, [Validators.required, Validators.min(0)]],
       type: ['-', Validators.required],
       date: [new Date(), Validators.required],
-      user: this.userService.getUserId(),
+      user: -1,
       temporal: ['m', Validators.required],
       period: [1, [Validators.required, Validators.min(1)]]
     });
+  }
+
+  ngOnInit(): void {
+    this.userService.getUserId().then(userId => {
+    // @ts-ignore
+      this.subscriptionForm.get('user').setValue(userId);
+    });
     this.loadSubscriptions();
+    this.getCurrency();
   }
 
   async loadSubscriptions() {
@@ -149,7 +156,7 @@ export class SubscriptionComponent implements OnInit {
     );
   }
 
-  getCurrency() {
-    return this.userService.getCurrency();
+  async getCurrency() {
+    this.currency = await this.userService.getCurrency();
   }
 }

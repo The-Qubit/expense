@@ -34,12 +34,14 @@ class DatabaseManager():
         return session[0]
 
 
-    def get_user_id(self, token):
+    def get_user_information(self, token):
         user_id = self.database.execute(
             "SELECT user_id FROM sessions WHERE token = ?", token)
         if len(user_id) == 0:
             return None
-        return user_id[0]
+        currency = self.database.execute(
+            "SELECT currency FROM users WHERE id = ?", user_id[0]["user_id"])
+        return [user_id[0], currency[0]]
 
 
     def insert_session(self, token, expires, user_id):

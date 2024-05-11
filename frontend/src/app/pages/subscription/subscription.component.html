@@ -20,7 +20,6 @@
 					<th scope="col">Amount</th>
 					<th scope="col">Period</th>
 					<th scope="col">Next</th>
-					<!-- <th scope="col">Actions</th> -->
 				</tr>
 			</thead>
 			<tbody class="table-group-divider">
@@ -28,7 +27,7 @@
 					<td>{{ getType(subscription.type) }}</td>
 					<td>{{ subscription.title }}</td>
 					<td>{{ subscription.category }}</td>
-					<td>{{ subscription.amount }} {{getCurrency()}}</td>
+					<td>{{ subscription.amount }} {{currency}}</td>
 					<td>{{ subscription.period }} {{ getTemporal(subscription.temporal)}}</td>
 					<td>{{ subscription.next}}</td>
 					<td><button class="btn bg-transparent" (click)="edit(subscription.id)"><i
@@ -52,7 +51,7 @@
 					</div>
 				</div>
 				<div class="container-fluid p-4 mx-auto">
-					<form [formGroup]="subscriptionForm" (ngSubmit)="addSubscription()" class="row">
+					<form  [formGroup]="subscriptionForm" (ngSubmit)="addSubscription()" class="row">
 
 						<div class="row mb-3" style="margin: auto">
 							<div class="form-check col-md-3">
@@ -80,9 +79,8 @@
 							<div class="input-group">
                                 <input id="amount" formControlName="amount" class="form-control" type="number"
                                     aria-describedby="currency">
-                                <span class="input-group-text" id="currency">{{getCurrency()}}</span>
+                                <span class="input-group-text" id="currency">{{currency}}</span>
                             </div>
-							<!-- <input formControlName="amount" class="form-control" id="amount" type="number"> -->
 						</div>
 						<div class="col-md-5 mt-2">
 							<label for="start" class="form-label">Start</label>

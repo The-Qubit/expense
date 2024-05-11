@@ -21,9 +21,11 @@ export class UserService {
         if (cookie.includes("session")) {
           this.token = cookie.split("=")[1];
 
-          const response = this.http.get(this.apiUrl + "getUserId", {params: {token: this.token}}).subscribe((data) => {
+          this.http.get(this.apiUrl + "getUserInformation", {params: {token: this.token}}).subscribe((data) => {
             //@ts-ignore
-            this.userId = data.user_id;
+            this.userId = data[0].user_id;
+            //@ts-ignore
+            this.currency = data[0].currency;
             }
           );
         }
@@ -78,9 +80,9 @@ export class UserService {
 
   public async getUserId(): Promise<number> {
     if (this.userId === -1) {
-      var result = await this.http.get(this.apiUrl + "getUserId", {params: {token: this.token}}).toPromise();
+      var result = await this.http.get(this.apiUrl + "getUserInformation", {params: {token: this.token}}).toPromise();
       // @ts-ignore
-      this.userId = result.user_id;
+      this.userId = result[0].user_id;
     }
     return this.userId;
   }
@@ -93,7 +95,17 @@ export class UserService {
     return this.currency;
   }
 
-  public getCurrency() {
-    return this.currencyMapping[this.currency];
+  public async getCurrency() {
+    await this.loadCurrency();
+    return this.currencyMapping[ this.currency];
+  }
+
+  private async loadCurrency() {
+    if (this.currency === "") {
+      console.log("Test")
+      var result = await this.http.get(this.apiUrl + "getUserInformation", {params: {token: this.token}}).toPromise();
+      // @ts-ignore
+      this.currency = result[1].currency;
+    }
   }
 }

@@ -25,7 +25,7 @@
                     <td>{{ transaction.title }}</td>
                     <td>{{ transaction.category }}</td>
                     <td>{{ transaction.date }}</td>
-                    <td [ngStyle]="getColor(transaction.type)"> {{transaction.type}}{{ transaction.amount }} {{getCurrency()}}</td>
+                    <td [ngStyle]="getColor(transaction.type)"> {{transaction.type}}{{ transaction.amount }} {{currency}}</td>
                 </tr>
             </tbody>
         </table>
@@ -73,7 +73,7 @@
                             <div class="input-group">
                                 <input id="amount" formControlName="amount" class="form-control" type="number"
                                     aria-describedby="currency">
-                                <span class="input-group-text" id="currency">{{getCurrency()}}</span>
+                                <span class="input-group-text" id="currency">{{currency}}</span>
                             </div>
                         </div>
                         <div class="mb-3">
