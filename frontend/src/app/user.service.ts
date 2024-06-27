@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
@@ -13,7 +13,25 @@ export class UserService {
   private currency = "";
   private currencyMapping: { [key: string]: string } = {"D": "$", "E": "€", "P": "£", "Y": "¥"};
 
-  constructor(private http: HttpClient, private router: Router) { }
+  constructor(private http: HttpClient, private router: Router) {
+    const cookies = document.cookie.split(";");
+
+    if (cookies.length > 0) {
+      cookies.forEach((cookie) => {
+        if (cookie.includes("session")) {
+          this.token = cookie.split("=")[1];
+
+          this.http.get(this.apiUrl + "getUserInformation", {params: {token: this.token}}).subscribe((data) => {
+            //@ts-ignore
+            this.userId = data[0].user_id;
+            //@ts-ignore
+            this.currency = data[0].currency;
+            }
+          );
+        }
+      })
+    }
+  }
 
   public isEmailUsed(email: string): Observable<any> {
     const data = { email: email };
@@ -38,10 +56,7 @@ export class UserService {
 
   public setToken(token: string): void {
     this.token = token;
-
-    const expires = new Date().setDate(new Date().getDate() + 1);
-
-    document.cookie = "session=" + token; + expires;
+    document.cookie = "session=" + token;
   }
 
   public getToken() {
@@ -49,17 +64,6 @@ export class UserService {
   }
 
   public isLoggedIn() {
-    if (this.token === "") {
-      const cookies = document.cookie.split(";");
-
-      if (cookies.length > 0) {
-        cookies.forEach((cookie) => {
-          if (cookie.includes("session")) {
-            this.token = cookie.split("=")[1];
-          }
-        })
-      }
-    }
     return this.token !== "";
   }
 
@@ -74,7 +78,12 @@ export class UserService {
     this.userId = id;
   }
 
-  public getUserId(): number {
+  public async getUserId(): Promise<number> {
+    if (this.userId === -1) {
+      var result = await this.http.get(this.apiUrl + "getUserInformation", {params: {token: this.token}}).toPromise();
+      // @ts-ignore
+      this.userId = result[0].user_id;
+    }
     return this.userId;
   }
 
@@ -86,7 +95,17 @@ export class UserService {
     return this.currency;
   }
 
-  public getCurrency() {
-    return this.currencyMapping[this.currency];
+  public async getCurrency() {
+    await this.loadCurrency();
+    return this.currencyMapping[ this.currency];
+  }
+
+  private async loadCurrency() {
+    if (this.currency === "") {
+      console.log("Test")
+      var result = await this.http.get(this.apiUrl + "getUserInformation", {params: {token: this.token}}).toPromise();
+      // @ts-ignore
+      this.currency = result[1].currency;
+    }
   }
 }

@@ -1,19 +1,19 @@
 <main class="grid-container">
     <div class="grid-item">
         <div>Total Income</div>
-        <b>+{{totalIncome}} {{getCurrency()}}</b>
+        <b>+{{round(totalIncome)}} {{currency}}</b>
     </div>
     <div class="grid-item">
         <div>Total Expenses</div>
-        <b>-{{totalExpenses}} {{getCurrency()}}</b>
+        <b>{{round(totalExpenses)}} {{currency}}</b>
     </div>
     <div class="grid-item">
         <div>Spend this year</div>
-        <b>{{thisYearExpenses}} {{getCurrency()}}</b>
+        <b>{{round(thisYearExpenses)}} {{currency}}</b>
     </div>
     <div class="grid-item">
         <div>Balance</div>
-        <b [ngStyle]="getColor(getSign(totalIncome - totalExpenses))">{{ totalIncome - totalExpenses }} {{getCurrency()}}</b>
+        <b [ngStyle]="getColor(getSign(totalIncome - totalExpenses))">{{ round(totalIncome - totalExpenses) }} {{ currency}}</b>
     </div>
     <div class="grid-item">
         <div>
@@ -41,7 +41,7 @@
                     <td>{{ transaction.title }}</td>
                     <td>{{ transaction.category }}</td>
                     <td>{{ transaction.date }}</td>
-                    <td [ngStyle]="getColor(transaction.type)"> {{transaction.type}}{{ transaction.amount }} {{getCurrency()}}</td>
+                    <td [ngStyle]="getColor(transaction.type)"> {{transaction.type}}{{ transaction.amount }} {{currency}}</td>
                 </tr>
             </tbody>
         </table>

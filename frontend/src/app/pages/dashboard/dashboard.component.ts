@@ -11,7 +11,7 @@ import { YearlyOverviewChart } from './yearly-overview.chart';
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css']
 })
-export class DashboardComponent implements OnInit{
+export class DashboardComponent implements OnInit {
   transactions: Transaction[] = [];
   categoryStatistics: CategoryStatistics[] = [];
   expensePerCategoryChart: any;
@@ -21,29 +21,32 @@ export class DashboardComponent implements OnInit{
   totalIncome = 0;
   balance = 0;
   yearlyTransactions: MonthlyTransaction[] = [];
+  currency = "";
 
 
-  constructor(private expenseService: ExpenseService, private userService: UserService) {}
-  
+  constructor(private expenseService: ExpenseService, private userService: UserService) { 
+  }
+
   ngOnInit(): void {
     this.loadTransactions();
+    this.getCurrency();
   }
 
-  getCurrency() {
-    return this.userService.getCurrency();
+  async getCurrency() {
+    this.currency = await this.userService.getCurrency();
   }
-  
-  loadTransactions() {
-    this.expenseService.getTransactions(this.userService.getUserId())
-    .subscribe(
-      (data) => {
-        // @ts-ignore
-        this.transactions = data.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
-        this.analyseTransactionsPerCategory();
-        this.analyseBalance();
-        this.analyseYearlyTransactions();
-        this.expensePerCategoryChart = new PerCategoryChart().render(this.categoryStatistics)
-        this.yearlyOverviewChart = new YearlyOverviewChart().render(this.yearlyTransactions)
+
+  async loadTransactions() {
+    this.expenseService.getTransactions(await this.userService.getUserId())
+      .subscribe(
+        (data) => {
+          // @ts-ignore
+          this.transactions = data.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+          this.analyseTransactionsPerCategory();
+          this.analyseBalance();
+          this.analyseYearlyTransactions();
+          this.expensePerCategoryChart = new PerCategoryChart().render(this.categoryStatistics)
+          this.yearlyOverviewChart = new YearlyOverviewChart().render(this.yearlyTransactions)
         },
         (error) => {
           console.error('Error loading expenses', error);
@@ -53,9 +56,9 @@ export class DashboardComponent implements OnInit{
 
   getColor(type: string): object {
     if (type == "+") {
-      return { color: 'green'};
+      return { color: 'green' };
     } else {
-      return { color: 'red'};
+      return { color: 'red' };
     }
   }
 
@@ -68,7 +71,7 @@ export class DashboardComponent implements OnInit{
       const categoryPosition = this.categoryStatistics.findIndex(i => i.category === transaction.category);
       const income = transaction.type === "+" ? transaction.amount : 0;
       const expense = transaction.type === "-" ? transaction.amount : 0;
-      if (categoryPosition == -1 ) {
+      if (categoryPosition == -1) {
         this.categoryStatistics.push({
           category: transaction.category,
           income: income,
@@ -77,7 +80,7 @@ export class DashboardComponent implements OnInit{
       }
       else {
         const category = this.categoryStatistics[categoryPosition];
-        category.expense += expense; 
+        category.expense += expense;
         category.income += income;
 
         this.categoryStatistics[categoryPosition] = category;
@@ -104,7 +107,6 @@ export class DashboardComponent implements OnInit{
   analyseYearlyTransactions() {
     this.createYearlyTransactionsDataStructure();
 
-    console.log(this.yearlyTransactions)
     this.transactions.forEach(transaction => {
       const transactionDate = new Date(transaction.date);
       transactionDate.setHours(0);
@@ -141,5 +143,9 @@ export class DashboardComponent implements OnInit{
         income: 0,
       });
     }
+  }
+
+  round(number: number) {
+    return Math.round(number * 100)/100;
   }
 }

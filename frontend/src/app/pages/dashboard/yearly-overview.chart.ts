@@ -1,5 +1,5 @@
 import Chart from 'chart.js/auto';
-import { CategoryStatistics, MonthlyTransaction } from 'src/models/analytics.model';
+import { MonthlyTransaction } from 'src/models/analytics.model';
 
 export class YearlyOverviewChart {
     public chart: any;
