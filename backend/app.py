@@ -141,7 +141,8 @@ def update_subscription():
 
     subscription = Subscription(**data, next=data.get("date"))
 
-    subscription.user = database_manager.get_user_information(session)["user_id"]
+    print(database_manager.get_user_information(session))
+    subscription.user = database_manager.get_user_information(session)[0]["user_id"]
     database_manager.update_subscription(subscription)
     return jsonify({"message": "Subscription updated successfully"}), 201
 
