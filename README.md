@@ -1,5 +1,4 @@
 # Expense - Personal Finance Management Application
-## Video Demo:  https://youtu.be/a10tbay0nM4
 ## Description:
 Expense is a comprehensive personal finance management application designed to help you oversee and manage your financial activities effectively. It's built using Angular, Flask, Python and SQLite.
 
